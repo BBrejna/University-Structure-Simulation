@@ -32,8 +32,8 @@ public class Main {
         writer.writeStudents(people);
         writer.writeEmployees(people);
 
-        courses.get(0).startCourse();
-        courses.get(0).finishCourse();
+//        courses.get(0).startCourse(people);
+//        courses.get(0).finishCourse(people);
         writer.writeStudents(people);
         writer.write(courses);
 

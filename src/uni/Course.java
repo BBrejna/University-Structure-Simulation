@@ -59,18 +59,18 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         courseState = new CourseState(courseCode);
     }
 
-    public void startCourse() {
+    public void startCourse(ArrayList<Person> people) {
         if (!courseState.isStarted()) {
             courseState.setStarted(true);
-            notifyObservers(courseState);
+            notifyObservers(courseState, people);
         } else {
             System.out.println("Error: course hasn't started yet");
         }
     }
-    public void finishCourse() {
+    public void finishCourse(ArrayList<Person> people) {
         if (courseState.isStarted() && !courseState.isFinished()) {
             courseState.setFinished(true);
-            notifyObservers(courseState);
+            notifyObservers(courseState, people);
         } else {
             System.out.println("Error: course is already finished or hasn't started yet");
         }
@@ -156,6 +156,10 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
             student.removeCourse(this);
         }
         students.remove(student);
+    }
+
+    public CourseState getCourseState() {
+        return courseState;
     }
 
     @Override

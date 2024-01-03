@@ -11,7 +11,7 @@ public class MainScanner {
     public static Serializer<Course> serializerCourse = new Serializer<>();
     public static Serializer<Person> serializerPeople = new Serializer<>();
 
-    public static void main(String[] args) { //todo add observer to MainScanner
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<Person> people = new ArrayList<>();
@@ -41,6 +41,8 @@ public class MainScanner {
             System.out.println("20. Delete courses");
             System.out.println("21. Delete students");
             System.out.println("22. Delete employees");
+            System.out.println("23. Start course");
+            System.out.println("24. Finish course");
             System.out.println("0. Exit");
 
             int option = scanner.nextInt();
@@ -116,6 +118,12 @@ public class MainScanner {
                 case 22:
                     people.removeAll(searchEmployees(scanner, people));
                     break;
+                case 23:
+                    startCourse(scanner, people, courses);
+                    break;
+                case 24:
+                    finishCourse(scanner, people, courses);
+                    break;
                 case 0:
                     System.out.println("EXITING!");
                     return;
@@ -124,6 +132,50 @@ public class MainScanner {
             }
 
         }
+    }
+
+    private static void finishCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+        System.out.println("Choose course:");
+        int iterator = 1;
+        ArrayList<Course> tmpCourses = new ArrayList<>();
+        for (Course course : courses) {
+            if (course.getCourseState().isStarted() && !course.getCourseState().isFinished()) {
+                tmpCourses.add(course);
+                System.out.println(iterator + ". " + course.getName() + ", " + course.getECTS() + " ECTS");
+                iterator += 1;
+            }
+        }
+        int optionCourse = scanner.nextInt();
+        scanner.nextLine();
+
+        if (optionCourse < 1 || iterator <= optionCourse) {
+            System.out.println("Wrong id, stopping funcion!");
+            return;
+        }
+        Course aktCourse = tmpCourses.get(optionCourse-1);
+        aktCourse.finishCourse(people);
+    }
+
+    private static void startCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+        System.out.println("Choose course:");
+        int iterator = 1;
+        ArrayList<Course> tmpCourses = new ArrayList<>();
+        for (Course course : courses) {
+            if (!course.getCourseState().isStarted()) {
+                tmpCourses.add(course);
+                System.out.println(iterator + ". " + course.getName() + ", " + course.getECTS() + " ECTS");
+                iterator += 1;
+            }
+        }
+        int optionCourse = scanner.nextInt();
+        scanner.nextLine();
+
+        if (optionCourse < 1 || iterator <= optionCourse) {
+            System.out.println("Wrong id, stopping funcion!");
+            return;
+        }
+        Course aktCourse = tmpCourses.get(optionCourse-1);
+        aktCourse.startCourse(people);
     }
 
     private static void sortCourses(Scanner scanner, ArrayList<Course> courses) {
