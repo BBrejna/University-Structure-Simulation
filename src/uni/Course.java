@@ -1,5 +1,7 @@
 package uni;
 
+import tools.ObserverSubject;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serial;
@@ -8,12 +10,13 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Course implements Serializable {
+public class Course extends ObserverSubject<CourseState> implements Serializable {
     private String name;
     private int ECTS;
     private String courseCode;
     private DidacticEmployee lecturer;
     private ArrayList<Student> students;
+    private CourseState courseState;
 
     @Override
     public boolean equals(Object obj) {
@@ -29,6 +32,7 @@ public class Course implements Serializable {
         courseCode = "Test";
         lecturer = null;
         students = new ArrayList<>();
+        courseState = new CourseState(courseCode);
     }
     public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer, ArrayList<Student> students) {
         this.name = name;
@@ -36,6 +40,7 @@ public class Course implements Serializable {
         this.courseCode = courseCode;
         this.lecturer = lecturer;
         this.students = students;
+        courseState = new CourseState(courseCode);
     }
     public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer) {
         this.name = name;
@@ -43,6 +48,7 @@ public class Course implements Serializable {
         this.courseCode = courseCode;
         this.lecturer = lecturer;
         this.students = new ArrayList<Student>();
+        courseState = new CourseState(courseCode);
     }
     public Course(String name, int ECTS, String courseCode) {
         this.name = name;
@@ -50,6 +56,24 @@ public class Course implements Serializable {
         this.courseCode = courseCode;
         this.lecturer = null;
         this.students = new ArrayList<Student>();
+        courseState = new CourseState(courseCode);
+    }
+
+    public void startCourse() {
+        if (!courseState.isStarted()) {
+            courseState.setStarted(true);
+            notifyObservers(courseState);
+        } else {
+            System.out.println("Error: course hasn't started yet");
+        }
+    }
+    public void finishCourse() {
+        if (courseState.isStarted() && !courseState.isFinished()) {
+            courseState.setFinished(true);
+            notifyObservers(courseState);
+        } else {
+            System.out.println("Error: course is already finished or hasn't started yet");
+        }
     }
 
     public String getName() {

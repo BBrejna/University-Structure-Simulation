@@ -1,5 +1,7 @@
 package uni;
 
+import tools.Observer;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serial;
@@ -7,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Student extends Person implements Serializable {
+public class Student extends Person implements Serializable, Observer<CourseState> {
     private int indexNumber;
     private int termNumber;
     private ArrayList<Course> courses;
@@ -16,6 +18,7 @@ public class Student extends Person implements Serializable {
     private boolean isOn2Degree;
     private boolean isOnDaily;
     private boolean isOnRemote;
+    private int numOfECTS = 0;
 
     @Override
     public boolean equals(Object obj) { //todo why this causes ArrayList.contains not find collisions
@@ -111,15 +114,17 @@ public class Student extends Person implements Serializable {
             course.addStudent(this);
         }
         courses.add(course);
+        course.addObserver(this);
     }
     public void removeCourse(Course course) {
         if (!this.courses.contains(course)) return;
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Course")) {
-            System.out.println("Called addCourse from "+Thread.currentThread().getStackTrace()[2].getClassName());
+            System.out.println("Called removeCourse from "+Thread.currentThread().getStackTrace()[2].getClassName());
             course.removeStudent(this);
         }
         courses.remove(course);
+        course.removeObserver(this);
     }
     public boolean isInErasmus() {
         return inErasmus;
@@ -166,6 +171,7 @@ public class Student extends Person implements Serializable {
         return "Student{" +
                 "indexNumber=" + indexNumber +
                 ", termNumber=" + termNumber +
+                ", ECTS amount=" + numOfECTS +
 //                ", courses=" + courses +
                 ", inErasmus=" + inErasmus +
                 ", isOn1Degree=" + isOn1Degree +
@@ -175,4 +181,28 @@ public class Student extends Person implements Serializable {
                 "} " + super.toString();
     }
 
+    @Override
+    public void updateState(CourseState courseState) {
+        String courseCode = courseState.getCourseCode();
+//        System.out.println(lastName+courseCode+courseState.isFinished());
+        if (courseState.isFinished()) {
+            Course tmpCourse = null;
+            for (Course course : courses) {
+                if (Objects.equals(course.getCourseCode(), courseCode)) {
+                    tmpCourse = course;
+                    break;
+                }
+            }
+            if (tmpCourse != null) {
+                removeCourse(tmpCourse);
+                tmpCourse.removeObserver(this);
+                numOfECTS += tmpCourse.getECTS();
+
+                System.out.println("I'm " + name + " " + lastName + " and I've just finished course " + courseCode);
+            }
+        }
+        else if (courseState.isStarted()) {
+            System.out.println("I'm "+name+" "+lastName+" and I've just started course "+courseCode);
+        }
+    }
 }

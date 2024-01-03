@@ -11,7 +11,7 @@ public class MainScanner {
     public static Serializer<Course> serializerCourse = new Serializer<>();
     public static Serializer<Person> serializerPeople = new Serializer<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { //todo add observer to MainScanner
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<Person> people = new ArrayList<>();

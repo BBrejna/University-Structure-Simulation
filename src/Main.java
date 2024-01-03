@@ -32,6 +32,11 @@ public class Main {
         writer.writeStudents(people);
         writer.writeEmployees(people);
 
+        courses.get(0).startCourse();
+        courses.get(0).finishCourse();
+        writer.writeStudents(people);
+        writer.write(courses);
+
         serializerCourse.saveToFile(courses, "courses.txt");
         serializerPeople.saveToFile(people, "people.txt");
 
