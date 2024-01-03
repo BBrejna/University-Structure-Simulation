@@ -79,6 +79,9 @@ public class Course implements Serializable {
     public DidacticEmployee getLecturer() {
         return lecturer;
     }
+    public String getLecturerLastName() {
+        return lecturer.getlastName();
+    }
 
     public void setLecturer(DidacticEmployee lecturer) {
         if (lecturer == this.lecturer) return;

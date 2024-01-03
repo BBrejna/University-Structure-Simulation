@@ -3,6 +3,8 @@ import uni.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class MainScanner {
@@ -34,6 +36,11 @@ public class MainScanner {
             System.out.println("15. Search courses");
             System.out.println("16. Search students");
             System.out.println("17. Search employees");
+            System.out.println("18. Sort people");
+            System.out.println("19. Sort courses");
+            System.out.println("20. Delete courses");
+            System.out.println("21. Delete students");
+            System.out.println("22. Delete employees");
             System.out.println("0. Exit");
 
             int option = scanner.nextInt();
@@ -86,13 +93,28 @@ public class MainScanner {
                     Writer.write(people);
                     break;
                 case 15:
-                    searchCourses(scanner, people, courses);
+                    Writer.write(searchCourses(scanner, people, courses));
                     break;
                 case 16:
-                    searchStudents(scanner, people);
+                    Writer.write(searchStudents(scanner, people));
                     break;
                 case 17:
-                    searchEmployees(scanner, people);
+                    Writer.write(searchEmployees(scanner, people));
+                    break;
+                case 18:
+                    sortPeople(scanner, people);
+                    break;
+                case 19:
+                    sortCourses(scanner, courses);
+                    break;
+                case 20:
+                    courses.removeAll(searchCourses(scanner, people, courses));
+                    break;
+                case 21:
+                    people.removeAll(searchStudents(scanner, people));
+                    break;
+                case 22:
+                    people.removeAll(searchEmployees(scanner, people));
                     break;
                 case 0:
                     System.out.println("EXITING!");
@@ -104,7 +126,40 @@ public class MainScanner {
         }
     }
 
-    private static void searchEmployees(Scanner scanner, ArrayList<Person> people) {
+    private static void sortCourses(Scanner scanner, ArrayList<Course> courses) {
+        courses.sort(Comparator.comparing(Course::getECTS)
+                .thenComparing(Course::getLecturerLastName));
+        Writer.write(courses);
+    }
+
+    private static void sortPeople(Scanner scanner, ArrayList<Person> people) {
+        System.out.println("Choose criteria:");
+        System.out.println("1. Last name");
+        System.out.println("2. Last name, then first name");
+        System.out.println("3. Last name, then age");
+
+        int option = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (option) {
+            case 1:
+                people.sort(Comparator.comparing(Person::getlastName));
+                break;
+            case 2:
+                people.sort(Comparator.comparing(Person::getlastName)
+                        .thenComparing(Person::getName));
+                break;
+            case 3:
+                people.sort(Comparator.comparing(Person::getlastName)
+                        .thenComparing(Person::getAge).reversed());
+            default:
+                System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
+                return;
+        }
+        Writer.write(people);
+    }
+
+    private static ArrayList<Employee> searchEmployees(Scanner scanner, ArrayList<Person> people) {
         System.out.println("Choose criteria:");
         System.out.println("1. Last name");
         System.out.println("2. First name");
@@ -137,17 +192,15 @@ public class MainScanner {
                 System.out.println("Insert key word:");
                 String keyWord = scanner.nextLine();
 
-                Writer.write(new EmployeeSearcher().search(people, mode, keyWord));
-
-                break;
+                return new EmployeeSearcher().search(people, mode, keyWord);
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
-                return;
+                return new ArrayList<>();
         }
 
     }
 
-    private static void searchStudents(Scanner scanner, ArrayList<Person> people) {
+    private static ArrayList<Student> searchStudents(Scanner scanner, ArrayList<Person> people) {
         System.out.println("Choose criteria:");
         System.out.println("1. Last name");
         System.out.println("2. First name");
@@ -174,16 +227,14 @@ public class MainScanner {
                 System.out.println("Insert key word:");
                 String keyWord = scanner.nextLine();
 
-                Writer.write(new StudentSearcher().search(people, mode, keyWord));
-
-                break;
+                return new StudentSearcher().search(people, mode, keyWord);
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
-                return;
+                return new ArrayList<>();
         }
     }
 
-    private static void searchCourses(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static ArrayList<Course> searchCourses(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
         System.out.println("Choose criteria:");
         System.out.println("1. Course name");
         System.out.println("2. Course ECTS");
@@ -225,16 +276,16 @@ public class MainScanner {
 
                 if (optionLecturer < 1 || iterator <= optionLecturer) {
                     System.out.println("Wrong id, stopping funcion!");
-                    return;
+                    return new ArrayList<>();
                 }
                 searched = searcher.search(courses, lecturers.get(optionLecturer-1));
 
                 break;
             default:
                 System.out.println("WRONG OPTION CHOOSEN. ENDING FUNCION!");
-                return;
+                return new ArrayList<>();
         }
-        Writer.write(searched);
+        return searched;
     }
 
     private static void removeStudentFromCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
