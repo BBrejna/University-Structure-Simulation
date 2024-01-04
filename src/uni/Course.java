@@ -2,11 +2,7 @@ package uni;
 
 import tools.ObserverSubject;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serial;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -59,18 +55,18 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         courseState = new CourseState(courseCode);
     }
 
-    public void startCourse(ArrayList<Person> people) {
+    public void startCourse() {
         if (!courseState.isStarted()) {
             courseState.setStarted(true);
-            notifyObservers(courseState, people);
+            notifyObservers(courseState);
         } else {
             System.out.println("Error: course hasn't started yet");
         }
     }
-    public void finishCourse(ArrayList<Person> people) {
+    public void finishCourse() {
         if (courseState.isStarted() && !courseState.isFinished()) {
             courseState.setFinished(true);
-            notifyObservers(courseState, people);
+            notifyObservers(courseState);
         } else {
             System.out.println("Error: course is already finished or hasn't started yet");
         }

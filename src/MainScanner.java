@@ -1,9 +1,7 @@
 import tools.*;
 import uni.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -14,8 +12,8 @@ public class MainScanner {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Person> people = new ArrayList<>();
-        ArrayList<Course> courses = new ArrayList<>();
+        ArrayList<Person> people = ArrayListsHolder.getInstance().getPeople();
+        ArrayList<Course> courses = ArrayListsHolder.getInstance().getCourses();
 
         while (true) {
             System.out.println("Choose option:");
@@ -78,8 +76,8 @@ public class MainScanner {
                     serializerPeople.saveToFile(people, "people.txt");
                     break;
                 case 10:
-                    people = serializerPeople.readFromFile("people.txt");
-                    courses = serializerCourse.readFromFile("courses.txt");
+                    ArrayListsHolder.getInstance().setPeople(serializerPeople.readFromFile("people.txt"));
+                    ArrayListsHolder.getInstance().setCourses(serializerCourse.readFromFile("courses.txt"));
                     break;
                 case 11:
                     Writer.write(courses);
@@ -153,7 +151,7 @@ public class MainScanner {
             return;
         }
         Course aktCourse = tmpCourses.get(optionCourse-1);
-        aktCourse.finishCourse(people);
+        aktCourse.finishCourse();
     }
 
     private static void startCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
@@ -175,7 +173,7 @@ public class MainScanner {
             return;
         }
         Course aktCourse = tmpCourses.get(optionCourse-1);
-        aktCourse.startCourse(people);
+        aktCourse.startCourse();
     }
 
     private static void sortCourses(Scanner scanner, ArrayList<Course> courses) {
