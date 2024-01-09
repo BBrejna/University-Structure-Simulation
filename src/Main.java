@@ -1,14 +1,14 @@
 import tools.*;
 import uni.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
         Serializer<Course> serializerCourse = new Serializer<>();
         Serializer<Person> serializerPeople = new Serializer<>();
-        ArrayList<Person> people = new ArrayList<>();
-        ArrayList<Course> courses = new ArrayList<>();
+        MyHashSet<Person> people = new MyHashSet<>();
+        MyHashSet<Course> courses = new MyHashSet<>();
 
         people.add(new Student("Bartosz", "Brejna", "123456789", 19.8, "Male", 280490, 1, true, true));
         people.add(new Student("Aleksander", "Janic", "987654321", 3.5, "Male", 280123, 1, true, true));
@@ -17,13 +17,13 @@ public class Main {
         people.add(new DidacticEmployee("Ulyana", "Yarka", "777888999", 35, "Female", "Lecturer", 12, 4500));
         people.add(new AdministrationEmployee("Gal", "Anonim", "123123123", 45, "Male", "Secretary", 12, 43999, 30));
 
-        courses.add(new Course("PSiO", 5, "PSiO-sem1-2023", (DidacticEmployee) people.get(3)));
+        courses.add(new Course("PSiO", 5, "PSiO-sem1-2023", (DidacticEmployee) people.get(0)));
 
 //        people = serializerPeople.readFromFile("people.txt");
 //        courses = serializerCourse.readFromFile("courses.txt");
 
-        ((Student) people.get(0)).addCourse(courses.get(0));
-        courses.get(0).addStudent((Student) people.get(1));
+        ((Student) people.get(2)).addCourse(courses.get(0));
+        courses.get(0).addStudent((Student) people.get(3));
 
         Writer writer = new Writer();
         writer.write(new StudentSearcher().search(people, "courseName", "PSiO"));
@@ -36,6 +36,7 @@ public class Main {
 //        courses.get(0).finishCourse(people);
         writer.writeStudents(people);
         writer.write(courses);
+        writer.write(people);
 
         serializerCourse.saveToFile(courses, "courses.txt");
         serializerPeople.saveToFile(people, "people.txt");

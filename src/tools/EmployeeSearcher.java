@@ -2,7 +2,6 @@ package tools;
 
 import uni.*;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class EmployeeSearcher implements Searcher<Employee, Person> {
@@ -19,13 +18,13 @@ public class EmployeeSearcher implements Searcher<Employee, Person> {
         return value;
     }
     @Override
-    public ArrayList<Employee> search(ArrayList<Person> people, String mode, String keyWord) {
-        ArrayList<Employee> employees = new ArrayList<>();
+    public MyHashSet<Employee> search(MyHashSet<Person> people, String mode, String keyWord) {
+        MyHashSet<Employee> employees = new MyHashSet<>();
         people.forEach(person -> {
             if (person instanceof Employee) employees.add((Employee) person);
         });
 
-        ArrayList<Employee> answer = new ArrayList<Employee>();
+        MyHashSet<Employee> answer = new MyHashSet<Employee>();
         employees.forEach(employee -> {
             if (Objects.equals(getPropertyValue(employee, mode), keyWord)) {
                 answer.add(employee);

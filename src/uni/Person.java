@@ -18,6 +18,11 @@ public abstract class Person implements Serializable {
         Person otherPerson = (Person) obj;
         return Objects.equals(pesel, otherPerson.pesel);
     }
+    @Override
+    public int hashCode() {
+        int result = pesel != null ? pesel.hashCode() : 0;
+        return result;
+    }
 
     public Person() {
         name = "Test";

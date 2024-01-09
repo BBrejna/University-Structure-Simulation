@@ -6,6 +6,9 @@ import uni.Student;
 import java.util.ArrayList;
 
 public class Writer {
+    public static void write(MyHashSet<?> content) {
+        write(new ArrayList<>(content));
+    }
     public static void write(ArrayList<?> content) {
         if (!content.isEmpty()) {
             System.out.println("Writing:");
@@ -14,16 +17,16 @@ public class Writer {
             System.out.println("Empty list, nothing to write!");
         }
     }
-    public static void writeEmployees(ArrayList<?> content) {
-        ArrayList<Employee> employees = new ArrayList<>();
+    public static void writeEmployees(MyHashSet<?> content) {
+        MyHashSet<Employee> employees = new MyHashSet<>();
         content.forEach(object -> {
             if (object instanceof Employee)
                 employees.add((Employee) object);
         });
         write(employees);
     }
-    public static void writeStudents(ArrayList<?> content) {
-        ArrayList<Student> students = new ArrayList<>();
+    public static void writeStudents(MyHashSet<?> content) {
+        MyHashSet<Student> students = new MyHashSet<>();
         content.forEach(object -> {
             if (object instanceof Student)
                 students.add((Student) object);

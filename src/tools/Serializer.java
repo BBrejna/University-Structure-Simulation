@@ -1,10 +1,9 @@
 package tools;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class Serializer<T> {
-    public void saveToFile(ArrayList<T> content, String filename) {
+    public void saveToFile(MyHashSet<T> content, String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(content);
             System.out.println("Content written to file: " + filename);
@@ -12,10 +11,10 @@ public class Serializer<T> {
             e.printStackTrace();
         }
     }
-    public ArrayList<T> readFromFile(String filename) {
-        ArrayList<T> content = new ArrayList<>();
+    public MyHashSet<T> readFromFile(String filename) {
+        MyHashSet<T> content = new MyHashSet<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
-            content = (ArrayList<T>) ois.readObject();
+            content = (MyHashSet<T>) ois.readObject();
             System.out.println("Content read from file: " + filename);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

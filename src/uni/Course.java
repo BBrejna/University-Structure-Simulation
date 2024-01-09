@@ -22,6 +22,11 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         Course otherCourse = (Course) obj;
         return Objects.equals(courseCode, otherCourse.courseCode);
     }
+    @Override
+    public int hashCode() {
+        int result = courseCode != null ? courseCode.hashCode() : 0;
+        return result;
+    }
     public Course() {
         name = "Test";
         ECTS = -1;

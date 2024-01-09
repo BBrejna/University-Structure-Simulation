@@ -1,9 +1,10 @@
 import tools.*;
 import uni.*;
 
-import java.util.ArrayList;
+import tools.MyHashSet;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class MainScanner {
     public static Serializer<Course> serializerCourse = new Serializer<>();
@@ -12,8 +13,8 @@ public class MainScanner {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Person> people = ArrayListsHolder.getInstance().getPeople();
-        ArrayList<Course> courses = ArrayListsHolder.getInstance().getCourses();
+        MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
+        MyHashSet<Course> courses = HashSetsHolder.getInstance().getCourses();
 
         while (true) {
             System.out.println("Choose option:");
@@ -76,8 +77,8 @@ public class MainScanner {
                     serializerPeople.saveToFile(people, "people.txt");
                     break;
                 case 10:
-                    ArrayListsHolder.getInstance().setPeople(serializerPeople.readFromFile("people.txt"));
-                    ArrayListsHolder.getInstance().setCourses(serializerCourse.readFromFile("courses.txt"));
+                    HashSetsHolder.getInstance().setPeople(serializerPeople.readFromFile("people.txt"));
+                    HashSetsHolder.getInstance().setCourses(serializerCourse.readFromFile("courses.txt"));
                     break;
                 case 11:
                     Writer.write(courses);
@@ -132,10 +133,10 @@ public class MainScanner {
         }
     }
 
-    private static void finishCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static void finishCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
-        ArrayList<Course> tmpCourses = new ArrayList<>();
+        MyHashSet<Course> tmpCourses = new MyHashSet<>();
         for (Course course : courses) {
             if (course.getCourseState().isStarted() && !course.getCourseState().isFinished()) {
                 tmpCourses.add(course);
@@ -154,10 +155,10 @@ public class MainScanner {
         aktCourse.finishCourse();
     }
 
-    private static void startCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static void startCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
-        ArrayList<Course> tmpCourses = new ArrayList<>();
+        MyHashSet<Course> tmpCourses = new MyHashSet<>();
         for (Course course : courses) {
             if (!course.getCourseState().isStarted()) {
                 tmpCourses.add(course);
@@ -176,13 +177,13 @@ public class MainScanner {
         aktCourse.startCourse();
     }
 
-    private static void sortCourses(Scanner scanner, ArrayList<Course> courses) {
-        courses.sort(Comparator.comparing(Course::getECTS)
+    private static void sortCourses(Scanner scanner, MyHashSet<Course> courses) {
+        ArrayList<Course> sortResult = courses.sort(Comparator.comparing(Course::getECTS)
                 .thenComparing(Course::getLecturerLastName));
-        Writer.write(courses);
+        Writer.write(sortResult);
     }
 
-    private static void sortPeople(Scanner scanner, ArrayList<Person> people) {
+    private static void sortPeople(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Choose criteria:");
         System.out.println("1. Last name");
         System.out.println("2. Last name, then first name");
@@ -191,25 +192,28 @@ public class MainScanner {
         int option = scanner.nextInt();
         scanner.nextLine();
 
+        ArrayList<Person> sortResult = null;
+
         switch (option) {
             case 1:
-                people.sort(Comparator.comparing(Person::getlastName));
+                sortResult = people.sort(Comparator.comparing(Person::getlastName));
                 break;
             case 2:
-                people.sort(Comparator.comparing(Person::getlastName)
+                sortResult = people.sort(Comparator.comparing(Person::getlastName)
                         .thenComparing(Person::getName));
                 break;
             case 3:
-                people.sort(Comparator.comparing(Person::getlastName)
+                sortResult = people.sort(Comparator.comparing(Person::getlastName)
                         .thenComparing(Person::getAge).reversed());
+                break;
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
                 return;
         }
-        Writer.write(people);
+        Writer.write(sortResult);
     }
 
-    private static ArrayList<Employee> searchEmployees(Scanner scanner, ArrayList<Person> people) {
+    private static MyHashSet<Employee> searchEmployees(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Choose criteria:");
         System.out.println("1. Last name");
         System.out.println("2. First name");
@@ -245,12 +249,12 @@ public class MainScanner {
                 return new EmployeeSearcher().search(people, mode, keyWord);
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
-                return new ArrayList<>();
+                return new MyHashSet<>();
         }
 
     }
 
-    private static ArrayList<Student> searchStudents(Scanner scanner, ArrayList<Person> people) {
+    private static MyHashSet<Student> searchStudents(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Choose criteria:");
         System.out.println("1. Last name");
         System.out.println("2. First name");
@@ -280,11 +284,11 @@ public class MainScanner {
                 return new StudentSearcher().search(people, mode, keyWord);
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
-                return new ArrayList<>();
+                return new MyHashSet<>();
         }
     }
 
-    private static ArrayList<Course> searchCourses(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static MyHashSet<Course> searchCourses(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose criteria:");
         System.out.println("1. Course name");
         System.out.println("2. Course ECTS");
@@ -295,7 +299,7 @@ public class MainScanner {
         scanner.nextLine();
 
         CourseSearcher searcher = new CourseSearcher();
-        ArrayList<Course> searched = null;
+        MyHashSet<Course> searched = null;
         String mode = "";
         switch (option) {
             case 1:
@@ -311,7 +315,7 @@ public class MainScanner {
                 break;
             case 4:
                 System.out.println("Choose lecturer:");
-                ArrayList<DidacticEmployee> lecturers = new ArrayList<>();
+                MyHashSet<DidacticEmployee> lecturers = new MyHashSet<>();
                 int iterator = 1;
                 for (Person person : people) {
                     if (person instanceof DidacticEmployee) {
@@ -326,19 +330,19 @@ public class MainScanner {
 
                 if (optionLecturer < 1 || iterator <= optionLecturer) {
                     System.out.println("Wrong id, stopping funcion!");
-                    return new ArrayList<>();
+                    return new MyHashSet<>();
                 }
                 searched = searcher.search(courses, lecturers.get(optionLecturer-1));
 
                 break;
             default:
                 System.out.println("WRONG OPTION CHOOSEN. ENDING FUNCION!");
-                return new ArrayList<>();
+                return new MyHashSet<>();
         }
         return searched;
     }
 
-    private static void removeStudentFromCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static void removeStudentFromCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
         for (Course course : courses) {
@@ -355,7 +359,7 @@ public class MainScanner {
         Course aktCourse = courses.get(optionCourse-1);
 
         System.out.println("Choose student:");
-        ArrayList<Student> students = new ArrayList<>();
+        MyHashSet<Student> students = new MyHashSet<>();
         iterator = 1;
         for (Person person : people) {
             if (person instanceof Student && aktCourse.getStudents().contains(person)) {
@@ -376,7 +380,7 @@ public class MainScanner {
         aktCourse.removeStudent(students.get(optionStudent-1));
     }
 
-    private static void addStudentToCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static void addStudentToCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
         for (Course course : courses) {
@@ -393,7 +397,7 @@ public class MainScanner {
         Course aktCourse = courses.get(optionCourse-1);
 
         System.out.println("Choose student:");
-        ArrayList<Student> students = new ArrayList<>();
+        MyHashSet<Student> students = new MyHashSet<>();
         iterator = 1;
         for (Person person : people) {
 
@@ -415,7 +419,7 @@ public class MainScanner {
         aktCourse.addStudent(students.get(optionStudent-1));
     }
 
-    private static void addAdministrationEmployee(Scanner scanner, ArrayList<Person> people) {
+    private static void addAdministrationEmployee(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Input:");
         System.out.println("\tFirst name:");
         String firstName = scanner.nextLine();
@@ -456,7 +460,7 @@ public class MainScanner {
         }
     }
 
-    private static void addDidacticEmployee(Scanner scanner, ArrayList<Person> people) {
+    private static void addDidacticEmployee(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Input:");
         System.out.println("\tFirst name:");
         String firstName = scanner.nextLine();
@@ -497,7 +501,7 @@ public class MainScanner {
         }
     }
 
-    public static void addStudent(Scanner scanner, ArrayList<Person> people) {
+    public static void addStudent(Scanner scanner, MyHashSet<Person> people) {
         System.out.println("Input:");
         System.out.println("\tFirst name:");
         String firstName = scanner.nextLine();
@@ -542,7 +546,7 @@ public class MainScanner {
             people.add(tmp);
         }
     }
-    public static void addCourse(Scanner scanner, ArrayList<Course> courses) {
+    public static void addCourse(Scanner scanner, MyHashSet<Course> courses) {
         System.out.println("Input:");
         System.out.println("\tCourse name:");
         String name = scanner.nextLine();
@@ -562,7 +566,7 @@ public class MainScanner {
             courses.add(tmp);
         }
     }
-    private static void assignDidacticToCourse(Scanner scanner, ArrayList<Person> people, ArrayList<Course> courses) {
+    private static void assignDidacticToCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
         for (Course course : courses) {
@@ -579,7 +583,7 @@ public class MainScanner {
         Course aktCourse = courses.get(optionCourse-1);
 
         System.out.println("Choose lecturer:");
-        ArrayList<DidacticEmployee> lecturers = new ArrayList<>();
+        MyHashSet<DidacticEmployee> lecturers = new MyHashSet<>();
         iterator = 1;
         for (Person person : people) {
             if (person instanceof DidacticEmployee && !person.equals(aktCourse.getLecturer())) {
@@ -600,7 +604,7 @@ public class MainScanner {
         aktCourse.setLecturer(lecturers.get(optionLecturer-1));
 
     }
-    public static void removeDidacticFromCourse(Scanner scanner, ArrayList<Course> courses) {
+    public static void removeDidacticFromCourse(Scanner scanner, MyHashSet<Course> courses) {
         System.out.println("Choose course:");
         int iterator = 1;
         for (Course course : courses) {

@@ -2,10 +2,7 @@ package tools;
 
 import uni.Course;
 import uni.DidacticEmployee;
-import uni.Employee;
-import uni.Student;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class CourseSearcher implements Searcher<Course, Course> {
@@ -17,8 +14,8 @@ public class CourseSearcher implements Searcher<Course, Course> {
 
         return value;
     }
-    private ArrayList<Course> searchByProperty(ArrayList<Course> courses, String mode, String keyWord) {
-        ArrayList<Course> answer = new ArrayList<>();
+    private MyHashSet<Course> searchByProperty(MyHashSet<Course> courses, String mode, String keyWord) {
+        MyHashSet<Course> answer = new MyHashSet<>();
         courses.forEach(course -> {
 //            System.out.println(mode + getPropertyValue(course, mode) + keyWord);
             if (Objects.equals(getPropertyValue(course, mode), keyWord)) {
@@ -28,16 +25,16 @@ public class CourseSearcher implements Searcher<Course, Course> {
         return answer;
     }
     @Override
-    public ArrayList<Course> search(ArrayList<Course> courses, String mode, String keyWord) {
-        ArrayList<Course> answer = switch(mode) {
+    public MyHashSet<Course> search(MyHashSet<Course> courses, String mode, String keyWord) {
+        MyHashSet<Course> answer = switch(mode) {
             case "name", "ECTS", "courseCode" -> searchByProperty(courses, mode, keyWord);
-            default -> new ArrayList<>();
+            default -> new MyHashSet<>();
         };
         return answer;
     }
 
-    public ArrayList<Course> search(ArrayList<Course> courses, DidacticEmployee lecturer) {
-        ArrayList<Course> answer = new ArrayList<>();
+    public MyHashSet<Course> search(MyHashSet<Course> courses, DidacticEmployee lecturer) {
+        MyHashSet<Course> answer = new MyHashSet<>();
         courses.forEach(course -> {
             if (course.getLecturer().equals(lecturer)) {
                 answer.add(course);

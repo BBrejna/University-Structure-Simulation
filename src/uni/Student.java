@@ -29,6 +29,12 @@ public class Student extends Person implements Serializable, Observer<CourseStat
         Student otherStudent = (Student) obj;
         return super.equals(obj) || Objects.equals(indexNumber, otherStudent.indexNumber);
     }
+    @Override
+    public int hashCode() {
+        int result = pesel != null ? pesel.hashCode() : 0;
+        result = (int)(1e6+3) * result + indexNumber;
+        return result;
+    }
 
     public Student() {
         indexNumber = 0;

@@ -12,7 +12,7 @@ public abstract class ObserverSubject<T> implements Serializable {
     public void notifyObservers(T t) {
         ArrayList<Observer<T>> tmpObservers = new ArrayList<>(observers);
         for (Observer<T> observer : tmpObservers) {
-            for (Person person : ArrayListsHolder.getInstance().getPeople()) {
+            for (Person person : HashSetsHolder.getInstance().getPeople()) {
                 if (person instanceof Student && observer.equals(person)) {
                     Observer<T> tmpObserver = (Observer<T>) person;
                     tmpObserver.updateState(t);
