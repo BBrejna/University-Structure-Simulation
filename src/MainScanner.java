@@ -453,11 +453,14 @@ public class MainScanner {
         scanner.nextLine();
 
         Person tmp = new AdministrationEmployee(firstName, lastName, pesel, age, gender, job, seniority, salary, overtimeAmount);
-        if (people.contains(tmp)) {
+        if (!people.add(tmp)) {
             System.out.println("Person with given PESEL already exists!");
-        } else {
-            people.add(tmp);
         }
+//        if (people.contains(tmp)) {
+//            System.out.println("Person with given PESEL already exists!");
+//        } else {
+//            people.add(tmp);
+//        }
     }
 
     private static void addDidacticEmployee(Scanner scanner, MyHashSet<Person> people) {
@@ -494,11 +497,14 @@ public class MainScanner {
         scanner.nextLine();
 
         Person tmp = new DidacticEmployee(firstName, lastName, pesel, age, gender, job, seniority, salary, publicationsNumber);
-        if (people.contains(tmp)) {
+        if (!people.add(tmp)) {
             System.out.println("Person with given PESEL already exists!");
-        } else {
-            people.add(tmp);
         }
+//        if (people.contains(tmp)) {
+//            System.out.println("Person with given PESEL already exists!");
+//        } else {
+//            people.add(tmp);
+//        }
     }
 
     public static void addStudent(Scanner scanner, MyHashSet<Person> people) {
@@ -540,11 +546,14 @@ public class MainScanner {
         scanner.nextLine();
 
         Person tmp = new Student(firstName, lastName, pesel, age, gender, indexNumber, termNumber, isOnErasmus, isOn1Degree, !isOn1Degree, isOnDailyStudies, !isOnDailyStudies);
-        if (people.contains(tmp)) {
+        if (!people.add(tmp)) {
             System.out.println("Person with given PESEL or indexNumber already exists!");
-        } else {
-            people.add(tmp);
         }
+        //        if (people.contains(tmp)) {
+        //            System.out.println("Person with given PESEL or indexNumber already exists!");
+        //        } else {
+        //            people.add(tmp);
+        //        }
     }
     public static void addCourse(Scanner scanner, MyHashSet<Course> courses) {
         System.out.println("Input:");
@@ -560,11 +569,14 @@ public class MainScanner {
 
         Course tmp = new Course(name, ectsNumber, courseCode);
 
-        if (courses.contains(tmp)) {
+        if (!courses.add(tmp)) {
             System.out.println("Course with given courseCode already exists!");
-        } else {
-            courses.add(tmp);
         }
+//        if (courses.contains(tmp)) {
+//            System.out.println("Course with given courseCode already exists!");
+//        } else {
+//            courses.add(tmp);
+//        }
     }
     private static void assignDidacticToCourse(Scanner scanner, MyHashSet<Person> people, MyHashSet<Course> courses) {
         System.out.println("Choose course:");

@@ -1,6 +1,9 @@
 package tools;
 
 import uni.Course;
+import uni.Employee;
+import uni.Person;
+import uni.Student;
 
 import java.io.Serializable;
 import java.util.*;
@@ -41,7 +44,19 @@ public class MyHashSet<T> extends HashSet<T> implements Serializable {
             if (elem.equals(inElem)) {
                 return true;
             }
+            if (inElem instanceof Person && elem instanceof Person) {
+                if (Objects.equals(((Person) inElem).getPesel(), ((Person) elem).getPesel())) {
+                    return true;
+                }
+            }
         }
         return false;
+    }
+
+    public boolean add(T obj) {
+        if (contains(obj)) {
+            return false;
+        }
+        return super.add(obj);
     }
 }
