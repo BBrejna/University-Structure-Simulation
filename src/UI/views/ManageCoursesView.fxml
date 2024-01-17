@@ -6,9 +6,57 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="UI.controllers.ManageCoursesController">
+<?import javafx.scene.shape.Line?>
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="UI.controllers.ManageCoursesController"
+      styleClass="container" style="-fx-padding: 10">
 
-    <Label text="Manage Courses"/>
-</AnchorPane>
+    <HBox alignment="CENTER" styleClass="container">
+        <Button fx:id="addToCourseButton" text="Add to course [...]" onAction="#addToCourseButtonClicked" styleClass="customButton, primaryButton" />
+        <Button fx:id="removeFromCourseButton" text="Remove from Course  [..]" onAction="#removeFromCourseButtonClicked" styleClass="customButton, primaryButton"/>
+        <Button fx:id="courseManagementButton" text="Course management [...]" onAction="#courseManagementButtonClicked" styleClass="customButton, primaryButton"/>
+    </HBox>
+    <VBox fx:id="studentDidacticCourseButtons" visible = "false">
+        <StackPane>
+            <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+        </StackPane>
+        <StackPane fx:id="studentDidacticCourseStackPane">
+            <HBox fx:id="addToCourseButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button fx:id="addStudentCourseButton" text="Student" onAction="#addStudentModeButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="addLecturerCourseButton" text="Lecturer" onAction="#addLecturerModeButtonClicked" styleClass="customButton, primaryButton"/>
+            </HBox>
+            <HBox fx:id="removeFromCourseButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button fx:id="removeStudentCourseButton" text="Student" onAction="#removeStudentModeButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="removeLecturerCourseButton" text="Lecturer" onAction="#removeDidacticModeButtonClicked" styleClass="customButton, primaryButton"/>
+            </HBox>
+            <HBox fx:id="courseButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button fx:id="startCourseButton" text="Start" onAction="#startModeButtonClicked" styleClass="customButton, primaryButton"/>
+                <Button fx:id="finishCourseButton" text="Finish" onAction="#finishModeButtonClicked" styleClass="customButton, primaryButton"/>
+            </HBox>
+        </StackPane>
+    </VBox>
+    <StackPane fx:id="MainStackPane">
+        <VBox fx:id="addToCourse" visible="false" alignment="CENTER">
+            <stylesheets>
+                <URL value="@/UI/styles/inputSection.css"/>
+            </stylesheets>
+            <StackPane>
+                <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+            </StackPane>
+            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                <Label text="Course:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="addStudentCourseTextBox" text="Student/Lecturer:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                <ComboBox onAction="#courseChosenInCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="courseComboBox" prefWidth="200"/>
+                <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="studentComboBox" visible="true" prefWidth="200"/>
+                <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="lecturerComboBox" visible="false" prefWidth="200"/>
+            </GridPane>
+            <Button fx:id="addDeleteButton" styleClass="customButton, primaryButton" text="Add/Delete" onAction="#addDeleteStudentLecturer" />
+        </VBox>
+
+
+
+    </StackPane>
+</VBox>
