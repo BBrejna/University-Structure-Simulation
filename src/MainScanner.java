@@ -204,7 +204,7 @@ public class MainScanner {
                 break;
             case 3:
                 sortResult = people.sort(Comparator.comparing(Person::getlastName)
-                        .thenComparing(Person::getAge).reversed());
+                        .thenComparing(Person::getAge, Comparator.reverseOrder()));
                 break;
             default:
                 System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
