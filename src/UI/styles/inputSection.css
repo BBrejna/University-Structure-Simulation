@@ -1,0 +1,108 @@
+.root {
+    -fx-background-color: white;
+}
+
+.exitButtonBox {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+
+
+.label {
+    -fx-font-family: "Space Mono";
+    -fx-font-size: 16;
+}
+
+.slider{
+    -fx-background-color: transparent;
+}
+.slider .track {
+    -fx-background-color: #B2AA8A;
+    -fx-opacity: 30%;
+}
+.slider .thumb {
+    -fx-background-color: #FFD42A;
+    -fx-effect: dropshadow(gaussian,#B2AA8A,5,0.2,0,0);
+}
+
+.text-field {
+    -fx-border-color: #B2AA8A;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+}
+
+.spinner {
+    -fx-border-color: #B2AA8A;
+    -fx-background-color: transparent;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+.spinner .text-field {
+    -fx-border-color: transparent;
+    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-effect: none;
+}
+.spinner .text-field:hover {
+    -fx-opacity: 50%;
+}
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: transparent;
+}
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-opacity: 50%;
+}
+.spinner .increment-arrow,
+.spinner .decrement-arrow {
+    -fx-background-color: black;
+}
+
+.combo-box{
+    -fx-border-color: #B2AA8A;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+}
+.combo-box:hover,
+.combo-box:selected {
+    -fx-opacity: 50%;
+}
+.combo-box .arrow {
+    -fx-background-color: black;
+}
+.combo-box-popup .list-cell:hover,
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #FFD42A;
+    -fx-text-fill: black;
+}
+.combo-box-popup .scroll-bar {
+    -fx-background-color: transparent;
+}
+.combo-box-popup .scroll-bar .thumb {
+    -fx-background-color: #B2AA8A;
+}
+.combo-box-popup .scroll-bar .increment-button,
+.combo-box-popup .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.radio-button {
+    -fx-background-color: transparent;
+}
+.radio-button:hover {
+    -fx-opacity: 50%;
+}
+.radio-button .radio {
+    -fx-background-color: white;
+    -fx-border-color: #B2AA8A;
+    -fx-border-radius: 100%;
+}
+.radio-button:selected .radio {
+    -fx-mark-color: #FFD42A;
+}

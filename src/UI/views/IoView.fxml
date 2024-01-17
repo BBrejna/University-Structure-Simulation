@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="UI.controllers.IoController"
+      styleClass="container" style="-fx-padding: 10">
+
+    <HBox alignment="CENTER" styleClass="container">
+        <Button fx:id="addingButton" text="Add [...]" onAction="#addButtonClicked" styleClass="customButton, primaryButton" />
+        <Button fx:id="deletingButton" text="Delete [..]" onAction="#deleteButtonClicked" styleClass="customButton, primaryButton"/>
+        <Button fx:id="filesIoButton" text="Files I/O [...]" onAction="#filesIoButtonClicked" styleClass="customButton, primaryButton"/>
+    </HBox>
+    <VBox fx:id="addDeleteFilesIoButtons" visible = "false">
+        <StackPane>
+            <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+        </StackPane>
+        <StackPane fx:id="addDeleteFilesIoStackPane">
+            <HBox fx:id="addButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button fx:id="addStudentButton" text="Student" onAction="#addStudentModeButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="addDidacticButton" text="Didactic employee" onAction="#addDidacticModeButtonClicked" styleClass="customButton, primaryButton"/>
+                <Button fx:id="addAdministrationButton" text="Administration employee" onAction="#addAdministrationModeButtonClicked" styleClass="customButton, primaryButton"/>
+                <Button fx:id="addCourseButton" text="Course" onAction="#addCourseModeButtonClicked" styleClass="customButton, primaryButton"/>
+            </HBox>
+            <HBox fx:id="deleteButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button fx:id="deleteStudentButton" text="Student" onAction="#deleteStudentModeButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="deleteEmployeeButton" text="Employee" onAction="#deleteEmployeeModeButtonClicked" styleClass="customButton, primaryButton"/>
+                <Button fx:id="deleteCourseButton" text="Course" onAction="#deleteCourseModeButtonClicked" styleClass="customButton, primaryButton"/>
+            </HBox>
+            <HBox fx:id="filesIoButtonBox" alignment="CENTER" styleClass="container" visible="false">
+                <Button text="Read from files" onAction="#readFromFile" styleClass="customButton, primaryButton"/>
+                <Button text="Save to files" onAction="#safeToFile" styleClass="customButton, primaryButton"/>
+            </HBox>
+        </StackPane>
+    </VBox>
+    <StackPane fx:id="InputStackPane">
+        <VBox fx:id="inputVBox" visible = "false">
+            <stylesheets>
+                <URL value="@/UI/styles/inputSection.css"/>
+            </stylesheets>
+            <StackPane>
+                <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+            </StackPane>
+
+            <StackPane fx:id="addingStackPane">
+                <VBox fx:id="inputPerson" alignment="CENTER" visible="false">
+                    <Label text="Personal info:"/>
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <Label text="First name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Last name: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldLastName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="PESEL: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldPesel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Age: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldAge" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Gender: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldGender" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <StackPane fx:id="addRoleSpecificInfoStackPane">
+                        <VBox fx:id="addStudentSpecificInfo" alignment="CENTER">
+                            <Label text="Student info:"/>
+                            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                <Label text="Index Number: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="textFieldIndex" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Term number: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="textFieldTerm" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Degree: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <fx:define>
+                                    <ToggleGroup fx:id="toggleDegree"/>
+                                </fx:define>
+                                <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                                    <RadioButton fx:id="1stDegreeRadioButton" text="1st" toggleGroup="$toggleDegree" selected="true"/>
+                                    <RadioButton fx:id="2ndDegreeRadioButton" text="2nd" toggleGroup="$toggleDegree"/>
+                                </HBox>
+
+                                <Label text="Is on daily studies: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <fx:define>
+                                    <ToggleGroup fx:id="toggleDaily"/>
+                                </fx:define>
+                                <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                                    <RadioButton fx:id="dailyYesRadioButton" text="yes" toggleGroup="$toggleDaily" selected="true"/>
+                                    <RadioButton fx:id="dailyNoRadioButton" text="no" toggleGroup="$toggleDaily"/>
+                                </HBox>
+
+                                <Label text="Is on Erasmus: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                <fx:define>
+                                    <ToggleGroup fx:id="toggleErasmus"/>
+                                </fx:define>
+                                <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                                    <RadioButton fx:id="erasmusYesRadioButton" text="yes" toggleGroup="$toggleErasmus"/>
+                                    <RadioButton fx:id="erasmusNoRadioButton" text="no" toggleGroup="$toggleErasmus" selected="true"/>
+                                </HBox>
+
+
+                            </GridPane>
+                        </VBox>
+                        <VBox fx:id="addEmployeeSpecificInfo" alignment="CENTER">
+                            <Label text="Employee info:"/>
+                            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                <Label text="Job: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="textFieldJob" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Seniority: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="textFieldSeniority" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Salary: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="textFieldSalary" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            </GridPane>
+                            <StackPane fx:id="addEmployeeSpecificInfoStackPane">
+                                <VBox fx:id="addDidacticSpecificInfo" alignment="CENTER">
+                                    <Label text="Didactic employee info:"/>
+                                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                        <Label text="Publications number: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="textFieldPublications" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                    </GridPane>
+                                </VBox>
+                                <VBox fx:id="addAdministrationSpecificInfo" alignment="CENTER">
+                                    <Label text="Administration employee info:"/>
+                                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                        <Label text="Overtime amount: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="textFieldOvertime" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                    </GridPane>
+                                </VBox>
+                            </StackPane>
+                        </VBox>
+                    </StackPane>
+                    <Button styleClass="customButton, primaryButton" text="Add" onAction="#addPerson" />
+                </VBox>
+                <VBox fx:id="inputCourse" alignment="CENTER" visible="false">
+                    <Label text="Course info:"/>
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <Label text="Course name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldCourseName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="ECTS number: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldECTS" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Unique course code: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldCourseCode" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <Button styleClass="customButton, primaryButton" text="Add" onAction="#addCourse" />
+                </VBox>
+            </StackPane>
+        </VBox>
+        <VBox fx:id="deleteVBox" visible="false">
+            <stylesheets>
+                <URL value="@/UI/styles/inputSection.css"/>
+            </stylesheets>
+            <StackPane>
+                <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+            </StackPane>
+            <StackPane fx:id="deletingStackPane">
+                <VBox fx:id="deletePerson" alignment="CENTER" visible="false">
+                    <Label text="Delete by:"/>
+                    <fx:define>
+                        <ToggleGroup fx:id="toggleStudentCriteria"/>
+                    </fx:define>
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <Label text="Last name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label text="First name: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="PersonLastNameRadioButton" text="" toggleGroup="$toggleStudentCriteria" selected="true"/>
+                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="PersonFirstNameRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                    </GridPane>
+                    <Line endX="200.0" stroke="white" strokeLineCap="ROUND"/>
+                    <StackPane fx:id="deleteRoleSpecificStackPane">
+                        <VBox alignment="CENTER" fx:id="deleteStudentSpecificRadioButtons">
+                            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                <Label text="Index number: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <Label text="Term number: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <Label text="Course name: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="StudentIndexNumberRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="StudentTermNumberRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="StudentCourseNameRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                            </GridPane>
+                        </VBox>
+                        <VBox alignment="CENTER" fx:id="deleteEmployeeSpecificRadioButtons">
+                            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                                <Label text="Job: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <Label text="Seniority: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <Label text="Salary: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <Label text="Number of publications: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <Label text="Amount of overtime: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="EmployeeJobRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="EmployeeSeniorityRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="EmployeeSalaryRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="EmployeePublicationsRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="EmployeeOvertimeRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                            </GridPane>
+                        </VBox>
+                    </StackPane>
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <Label text="Key word: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldStudentKeyWord" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <Button styleClass="customButton, primaryButton" text="Delete" onAction="#deletePerson" />
+                </VBox>
+                <VBox fx:id="deleteCourse" alignment="CENTER" visible="false">
+                    <Label text="Delete by:"/>
+                    <fx:define>
+                        <ToggleGroup fx:id="toggleCourseCriteria"/>
+                    </fx:define>
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <Label text="Course name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label text="Course ECTS: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label text="Course code: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label text="Course lecturer: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="CourseNameRadioButton" text="" toggleGroup="$toggleCourseCriteria" selected="true"/>
+                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="CourseECTSRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
+                        <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="CourseCodeRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
+                        <HBox GridPane.rowIndex="3" GridPane.columnIndex="1">
+                            <RadioButton fx:id="CourseLecturerRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
+                            <ComboBox fx:id="lecturerComboBox" prefWidth="200"/>
+                        </HBox>
+
+                        <Label text="Key word: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextField fx:id="textFieldCourseKeyWord" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <Button styleClass="customButton, primaryButton" text="Delete" onAction="#deleteCourse" />
+                </VBox>
+            </StackPane>
+        </VBox>
+    </StackPane>
+</VBox>

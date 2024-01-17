@@ -1,0 +1,77 @@
+.root{
+    -fx-background-color: #c4c4c4;
+    -fx-max-height: 600px;
+    -fx-max-width: 1200px;
+}
+.container {
+    -fx-spacing: 10;
+}
+
+.iconButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.iconButton:hover,
+.iconButton:disabled {
+    -fx-opacity: 25%;
+}
+
+.timeLabel {
+    -fx-font-family: "Space Mono";
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+}
+.buttonBox {
+    -fx-padding:0 20 0 0; /*top right bottom left*/
+}
+.customButton {
+    -fx-font-family: "Space Mono";
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-font-size: 16;
+    -fx-padding: 5;
+    -fx-min-width: 70;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+.customButton:hover,
+.customButton:pressed {
+    -fx-opacity: 75%;
+}
+
+.primaryButton {
+    -fx-background-color: #B2AA8A;
+    -fx-border-color: #B2AA8A;
+}
+.redButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #d75050;
+}
+.redButton:hover {
+    -fx-background-color: #d75050;
+    -fx-text-fill: white;
+    -fx-opacity: 100%;
+}
+.secondaryButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #B2AA8A ;
+}
+.button:hover,
+.slider:hover,
+.combo-box:hover,
+.combo-box-popup .list-cell:hover,
+.radio-button:hover,
+.thumb:hover{
+    -fx-cursor: hand;
+}
+.thumb:hover {
+    -fx-opacity: 75%;
+}
+.clock {
+    -fx-background-color: black;
+    -fx-border-color: #6B655A;
+    -fx-border-width: 5;
+    -fx-text-fill: red;
+    -fx-padding: 5 5 0 5;
+}

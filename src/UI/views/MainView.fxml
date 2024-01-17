@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="UI.controllers.MainController"
+            prefHeight="600.0" prefWidth="800.0">
+    <stylesheets>
+        <URL value="@/UI/styles/style.css"/>
+        <URL value="@/UI/styles/mainView.css"/>
+    </stylesheets>
+
+    <GridPane gridLinesVisible="true" minWidth="400">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.4"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+        <Button disable="true" fx:id="ioButton" styleClass="RoleButton" text="Input / Output" GridPane.columnIndex="0"
+                GridPane.rowIndex="0" onAction="#showIoContent"/>
+        <Button fx:id="manageCoursesButton" styleClass="RoleButton" text="Manage Courses" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                maxWidth="Infinity" onAction="#showManageCoursesContent"/>
+        <Button fx:id="wssButton" styleClass="RoleButton" text="Writing, Searching and Sorting" GridPane.columnIndex="2"
+                GridPane.rowIndex="0" onAction="#showWssContent"/>
+    </GridPane>
+    <fx:include fx:id="ioContent" source="IoView.fxml"/>
+    <fx:include fx:id="manageCoursesContent" source="ManageCoursesView.fxml" visible="false" managed="false"/>
+    <fx:include fx:id="wssContent" source="WssView.fxml" visible="false" managed="false"/>
+</VBox>
