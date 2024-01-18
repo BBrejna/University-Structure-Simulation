@@ -39,17 +39,22 @@ public class MainController {
 
     public void showIoContent(ActionEvent actionEvent) {
         changeView(ioButton, ioContent);
+        ControllersHandler.getInstance().getIoController().prepareToUse();
     }
 
     public void showManageCoursesContent(ActionEvent actionEvent) {
         changeView(manageCoursesButton, manageCoursesContent);
+        ControllersHandler.getInstance().getManageCoursesController().prepareToUse();
     }
 
     public void showWssContent(ActionEvent actionEvent) {
         changeView(wssButton, wssContent);
+        ControllersHandler.getInstance().getWssController().prepareToUse();
     }
 
     public void initialize() {
+        ControllersHandler.getInstance().setMainController(this);
+
         disabledButton = ioButton;
         disabledButton.getStyleClass().add("activeButton");
         currentContent = ioContent;

@@ -24,6 +24,18 @@ import java.util.ArrayList;
 
 public class IoController {
 
+    public void initialize() {
+        ControllersHandler.getInstance().setIoController(this);
+    }
+    public void prepareToUse() {
+        turnOffStackPaneChildren(addDeleteFilesIoStackPane);
+        addDeleteFilesIoButtons.setVisible(false);
+
+        setCurrentMainButton(null);
+
+        disableSecondarySection();
+    }
+
     MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
     MyHashSet<Course> courses = HashSetsHolder.getInstance().getCourses();
     public static Serializer<Course> serializerCourse = new Serializer<>();
@@ -86,7 +98,9 @@ public class IoController {
             currentMainButton.setDisable(false);
         }
         currentMainButton = newButton;
-        currentMainButton.setDisable(true);
+        if (currentMainButton != null) {
+            currentMainButton.setDisable(true);
+        }
     }
     private void setCurrentSecondaryButton(Button newButton) {
         if (currentSecondaryButton != null) {

@@ -55,7 +55,20 @@
             </GridPane>
             <Button fx:id="addDeleteButton" styleClass="customButton, primaryButton" text="Add/Delete" onAction="#addDeleteStudentLecturer" />
         </VBox>
+        <VBox fx:id="manageCourse" visible="false" alignment="CENTER">
+            <stylesheets>
+                <URL value="@/UI/styles/inputSection.css"/>
+            </stylesheets>
+            <StackPane>
+                <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
+            </StackPane>
+            <GridPane alignment="CENTER" hgap="10" vgap="10">
+                <Label text="Course:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
+                <ComboBox onAction="#courseChosenInCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="courseManageComboBox" prefWidth="200"/>
+            </GridPane>
+            <Button fx:id="startFinishButton" styleClass="customButton, primaryButton" text="Start/Finish" onAction="#startFinishCourse" />
+        </VBox>
 
 
     </StackPane>

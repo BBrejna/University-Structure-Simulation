@@ -18,6 +18,20 @@ import uni.Person;
 import uni.Student;
 
 public class ManageCoursesController {
+
+    public void initialize() {
+        ControllersHandler.getInstance().setManageCoursesController(this);
+    }
+
+    public void prepareToUse() {
+        turnOffStackPaneChildren(studentDidacticCourseStackPane);
+        studentDidacticCourseButtons.setVisible(false);
+
+        setCurrentMainButton(null);
+
+        disableSecondarySection();
+    }
+
     public Button addToCourseButton;
     public Button removeFromCourseButton;
     public Button courseManagementButton;
@@ -39,6 +53,9 @@ public class ManageCoursesController {
     public Label addStudentCourseTextBox;
     public ComboBox<Course> courseComboBox;
     public Button addDeleteButton;
+    public VBox manageCourse;
+    public ComboBox<Course> courseManageComboBox;
+    public Button startFinishButton;
 
     private Button currentMainButton = null;
     private Button currentSecondaryButton = null;
@@ -48,7 +65,9 @@ public class ManageCoursesController {
             currentMainButton.setDisable(false);
         }
         currentMainButton = newButton;
-        currentMainButton.setDisable(true);
+        if (currentMainButton != null) {
+            currentMainButton.setDisable(true);
+        }
     }
     private void setCurrentSecondaryButton(Button newButton) {
         if (currentSecondaryButton != null) {
@@ -153,11 +172,14 @@ public class ManageCoursesController {
         courseComboBox.getItems().clear();
         studentComboBox.getItems().clear();
         lecturerComboBox.getItems().clear();
+        courseManageComboBox.getItems().clear();
     }
     public void addStudentModeButtonClicked(ActionEvent actionEvent) {
         clearAddComboBoxes();
         setCurrentSecondaryButton(addStudentCourseButton);
         loadCourses(courseComboBox);
+
+        turnOffStackPaneChildren(MainStackPane);
         addToCourse.setVisible(true);
 
         studentComboBox.setManaged(true);
@@ -173,6 +195,8 @@ public class ManageCoursesController {
         clearAddComboBoxes();
         setCurrentSecondaryButton(addLecturerCourseButton);
         loadCourses(courseComboBox);
+
+        turnOffStackPaneChildren(MainStackPane);
         addToCourse.setVisible(true);
 
         studentComboBox.setManaged(false);
@@ -188,6 +212,8 @@ public class ManageCoursesController {
         clearAddComboBoxes();
         setCurrentSecondaryButton(removeStudentCourseButton);
         loadCourses(courseComboBox);
+
+        turnOffStackPaneChildren(MainStackPane);
         addToCourse.setVisible(true);
 
         studentComboBox.setManaged(true);
@@ -203,6 +229,8 @@ public class ManageCoursesController {
         clearAddComboBoxes();
         setCurrentSecondaryButton(removeLecturerCourseButton);
         loadCourses(courseComboBox);
+
+        turnOffStackPaneChildren(MainStackPane);
         addToCourse.setVisible(true);
 
         studentComboBox.setManaged(false);
@@ -214,12 +242,46 @@ public class ManageCoursesController {
         addDeleteButton.setText("Delete");
     }
 
+    private void loadStartFinishCombo(boolean mode) {
+        ObservableList<Course> availableCourses = FXCollections.observableArrayList();
+        for (Course course : HashSetsHolder.getInstance().getCourses()) {
+            if (mode && !course.getCourseState().isStarted()) {
+                availableCourses.add(course);
+            }
+            if (!mode && course.getCourseState().isStarted() && !course.getCourseState().isFinished()) {
+                availableCourses.add(course);
+            }
+        }
+        courseManageComboBox.setItems(availableCourses);
+    }
+
     public void startModeButtonClicked(ActionEvent actionEvent) {
+        clearAddComboBoxes();
+        setCurrentSecondaryButton(startCourseButton);
+
+        turnOffStackPaneChildren(MainStackPane);
+        manageCourse.setVisible(true);
+        addToCourse.setManaged(false);
+
+        startFinishButton.setText("Start");
+        loadStartFinishCombo(true);
     }
 
     public void finishModeButtonClicked(ActionEvent actionEvent) {
+        clearAddComboBoxes();
+        setCurrentSecondaryButton(finishCourseButton);
+
+        turnOffStackPaneChildren(MainStackPane);
+        addToCourse.setManaged(false);
+        manageCourse.setVisible(true);
+
+        startFinishButton.setText("Finish");
+        loadStartFinishCombo(false);
     }
 
     public void addDeleteStudentLecturer(ActionEvent actionEvent) {
+    }
+
+    public void startFinishCourse(ActionEvent actionEvent) {
     }
 }
