@@ -4,19 +4,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class SortPeoplePopupController {
+public class SearchPeoplePopupController {
+    public TextField textFieldKeyWord;
+    @FXML
+    private ToggleGroup toggleSearchCriteria;
     private Stage stage;
     int answer=0;
+    String keyWord="";
 
-
+    public String getKeyWord() {
+        return keyWord;
+    }
     public int displayPopup(Stage stage, Parent root) {
         this.stage = stage;
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Choose sorting option");
+        stage.setTitle("Choose searching option");
 
         stage.setOnCloseRequest(e -> {
             e.consume();
@@ -37,26 +46,17 @@ public class SortPeoplePopupController {
         }
     }
 
-
-
-    @FXML
-    private void initialize(){
-
-    }
-
-
-    public void onMode1Chosen(ActionEvent actionEvent) {
-        answer = 1;
-        closeWindow();
-    }
-
-    public void onMode2Chosen(ActionEvent actionEvent) {
-        answer = 2;
-        closeWindow();
-    }
-
-    public void onMode3Chosen(ActionEvent actionEvent) {
-        answer = 3;
+    public void submitButton(ActionEvent actionEvent) {
+        RadioButton chosen = (RadioButton) toggleSearchCriteria.getSelectedToggle();
+        int i = 0;
+        for (; i < toggleSearchCriteria.getToggles().size(); i++) {
+            RadioButton current = (RadioButton) toggleSearchCriteria.getToggles().get(i);
+            if (chosen.equals(current)) {
+                break;
+            }
+        }
+        answer=i;
+        keyWord = textFieldKeyWord.getText();
         closeWindow();
     }
 }

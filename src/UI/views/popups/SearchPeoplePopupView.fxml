@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="UI.controllers.popups.SearchPeoplePopupController"
+            prefHeight="400.0" prefWidth="600.0">
+    <stylesheets>
+        <URL value="@/UI/styles/style.css"/>
+        <URL value="@/UI/styles/popup.css"/>
+    </stylesheets>
+    <fx:define>
+        <ToggleGroup fx:id="toggleSearchCriteria"/>
+    </fx:define>
+    <Label alignment="CENTER" styleClass="timeLabel" text="SEARCH PEOPLE"/>
+    <GridPane alignment="CENTER" hgap="30" vgap="10">
+        <Label text="GENERAL" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <RadioButton fx:id="allStudentsRadio" toggleGroup="$toggleSearchCriteria" selected="true" text="All students" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <RadioButton fx:id="allEmployeesRadio" toggleGroup="$toggleSearchCriteria" text="All employees" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label text="PERSONAL INFO" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="lastNameRadio" toggleGroup="$toggleSearchCriteria" text="Last name" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="firstNameRadio" toggleGroup="$toggleSearchCriteria" text="First name" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="STUDENT SPECIFIC" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <RadioButton fx:id="indexNumberRadio" toggleGroup="$toggleSearchCriteria" text="Index number" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <RadioButton fx:id="termNumberRadio" toggleGroup="$toggleSearchCriteria" text="Term number" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <RadioButton fx:id="courseNameRadio" toggleGroup="$toggleSearchCriteria" text="Course name" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <Label text="EMPLOYEE SPECIFIC" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="jobRadio" toggleGroup="$toggleSearchCriteria" text="Job" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="seniorityRadio" toggleGroup="$toggleSearchCriteria" text="Seniority" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="salaryRadio" toggleGroup="$toggleSearchCriteria" text="Salary" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="publicationsRadio" toggleGroup="$toggleSearchCriteria" text="Publications number" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        <RadioButton fx:id="overtimeRadio" toggleGroup="$toggleSearchCriteria" text="Overtime amount" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+        <Label text="KEY WORD: " GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+        <TextField fx:id="textFieldKeyWord" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+    </GridPane>
+    <Button styleClass="customButton, primaryButton" text="Search" onAction="#submitButton" />
+</VBox>

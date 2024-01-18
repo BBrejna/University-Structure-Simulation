@@ -165,42 +165,32 @@
                 <Line startX="100.0" endX="100.0" endY="20.0" stroke="black" strokeLineCap="ROUND" strokeWidth="10"/>
             </StackPane>
             <StackPane fx:id="deletingStackPane">
-                <VBox fx:id="deletePerson" alignment="CENTER" visible="false">
+                <VBox spacing="10" fx:id="deletePerson" alignment="CENTER" visible="false">
                     <Label text="Delete by:"/>
                     <fx:define>
                         <ToggleGroup fx:id="toggleStudentCriteria"/>
                     </fx:define>
                     <GridPane alignment="CENTER" hgap="10" vgap="10">
-                        <Label text="Last name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <Label text="First name: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
-                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="PersonLastNameRadioButton" text="" toggleGroup="$toggleStudentCriteria" selected="true"/>
-                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="PersonFirstNameRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="PersonLastNameRadioButton" text="Last name" toggleGroup="$toggleStudentCriteria" selected="true"/>
+                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="PersonFirstNameRadioButton" text="First name" toggleGroup="$toggleStudentCriteria"/>
                     </GridPane>
                     <Line endX="200.0" stroke="white" strokeLineCap="ROUND"/>
                     <StackPane fx:id="deleteRoleSpecificStackPane">
                         <VBox alignment="CENTER" fx:id="deleteStudentSpecificRadioButtons">
                             <GridPane alignment="CENTER" hgap="10" vgap="10">
-                                <Label text="Index number: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                                <Label text="Term number: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                <Label text="Course name: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="StudentIndexNumberRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="StudentTermNumberRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="StudentCourseNameRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="StudentIndexNumberRadioButton" text="Index number" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="StudentTermNumberRadioButton" text="Term number" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="StudentCourseNameRadioButton" text="Course name" toggleGroup="$toggleStudentCriteria"/>
                             </GridPane>
                         </VBox>
                         <VBox alignment="CENTER" fx:id="deleteEmployeeSpecificRadioButtons">
                             <GridPane alignment="CENTER" hgap="10" vgap="10">
-                                <Label text="Job: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                                <Label text="Seniority: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                <Label text="Salary: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                                <Label text="Number of publications: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                                <Label text="Amount of overtime: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="EmployeeJobRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="EmployeeSeniorityRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="EmployeeSalaryRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="EmployeePublicationsRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
-                                <RadioButton GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="EmployeeOvertimeRadioButton" text="" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="EmployeeJobRadioButton" text="Job" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="EmployeeSeniorityRadioButton" text="Seniority" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="EmployeeSalaryRadioButton" text="Salary" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="3" GridPane.columnIndex="0" fx:id="EmployeePublicationsRadioButton" text="Publications number" toggleGroup="$toggleStudentCriteria"/>
+                                <RadioButton GridPane.rowIndex="4" GridPane.columnIndex="0" fx:id="EmployeeOvertimeRadioButton" text="Overtime amount" toggleGroup="$toggleStudentCriteria"/>
                             </GridPane>
                         </VBox>
                     </StackPane>
@@ -216,18 +206,11 @@
                         <ToggleGroup fx:id="toggleCourseCriteria"/>
                     </fx:define>
                     <GridPane alignment="CENTER" hgap="10" vgap="10">
-                        <Label text="Course name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <Label text="Course ECTS: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <Label text="Course code: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <Label text="Course lecturer: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-
-                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="CourseNameRadioButton" text="" toggleGroup="$toggleCourseCriteria" selected="true"/>
-                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="CourseECTSRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
-                        <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="CourseCodeRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
-                        <HBox GridPane.rowIndex="3" GridPane.columnIndex="1">
-                            <RadioButton fx:id="CourseLecturerRadioButton" text="" toggleGroup="$toggleCourseCriteria"/>
-                            <ComboBox fx:id="lecturerComboBox" prefWidth="200"/>
-                        </HBox>
+                        <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="CourseNameRadioButton" text="Course name" toggleGroup="$toggleCourseCriteria" selected="true"/>
+                        <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="CourseECTSRadioButton" text="ECTS" toggleGroup="$toggleCourseCriteria"/>
+                        <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="CourseCodeRadioButton" text="Course code" toggleGroup="$toggleCourseCriteria"/>
+                        <RadioButton GridPane.rowIndex="3" GridPane.columnIndex="0" fx:id="CourseLecturerRadioButton" text="Lecturer" toggleGroup="$toggleCourseCriteria"/>
+                        <ComboBox GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="lecturerComboBox" prefWidth="200"/>
 
                         <Label text="Key word: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                         <TextField fx:id="textFieldCourseKeyWord" GridPane.rowIndex="4" GridPane.columnIndex="1"/>

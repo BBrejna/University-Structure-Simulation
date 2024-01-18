@@ -22,7 +22,7 @@
         <VBox alignment="CENTER" fx:id="GridVBoxPeople" GridPane.rowIndex="0" GridPane.columnIndex="0">
             <Label styleClass="timeLabel" text="PEOPLE"/>
             <HBox spacing="10">
-                <Button fx:id="clearPeopleFiltersButton" text="Clear filters [...]" onAction="#onClearPeopleFiltersButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="clearPeopleFiltersButton" text="Clear filters" onAction="#onClearPeopleFiltersButtonClicked" styleClass="customButton, primaryButton" />
                 <Button fx:id="searchPeopleButton" text="Search [..]" onAction="#onSearchPeopleButtonClicked" styleClass="customButton, primaryButton"/>
                 <Button fx:id="sortPeopleButton" text="Sort [...]" onAction="#onSortPeopleButtonClicked" styleClass="customButton, primaryButton"/>
             </HBox>
@@ -68,7 +68,7 @@
         <VBox alignment="CENTER" fx:id="GridVBoxCourses" GridPane.rowIndex="0" GridPane.columnIndex="1">
             <Label styleClass="timeLabel" text="COURSES"/>
             <HBox alignment="CENTER_RIGHT" spacing="10">
-                <Button fx:id="clearCoursesFiltersButton" text="Clear filters [...]" onAction="#onClearCoursesFiltersButtonClicked" styleClass="customButton, primaryButton" />
+                <Button fx:id="clearCoursesFiltersButton" text="Clear filters" onAction="#onClearCoursesFiltersButtonClicked" styleClass="customButton, primaryButton" />
                 <Button fx:id="searchCoursesButton" text="Search [..]" onAction="#onSearchCoursesButtonClicked" styleClass="customButton, primaryButton"/>
                 <Button fx:id="sortCoursesButton" text="Sort" onAction="#onSortCoursesButtonClicked" styleClass="customButton, primaryButton"/>
             </HBox>

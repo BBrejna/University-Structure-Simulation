@@ -1,5 +1,7 @@
 package UI.controllers;
 
+import UI.controllers.popups.SearchCoursesPopupController;
+import UI.controllers.popups.SearchPeoplePopupController;
 import UI.controllers.popups.SortPeoplePopupController;
 import UI.controllers.tableElements.CourseTableElement;
 import UI.controllers.tableElements.PeopleTableElement;
@@ -10,9 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import tools.HashSetsHolder;
-import tools.MyHashSet;
-import tools.Writer;
+import tools.*;
 import uni.*;
 
 import javax.tools.Diagnostic;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class WssController {
     MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
@@ -142,7 +143,76 @@ public class WssController {
         restartTables();
     }
 
-    public void onSearchPeopleButtonClicked(ActionEvent actionEvent) {
+    public void onSearchPeopleButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/views/popups/SearchPeoplePopupView.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+
+        SearchPeoplePopupController popupController = loader.getController();
+
+        int searchMode = popupController.displayPopup(popupStage, root);
+        String keyWord = popupController.getKeyWord();
+        System.out.println(searchMode+" "+keyWord);
+
+        ArrayList<Person> searchResult = new ArrayList<>();
+
+        HashMap<Integer, String> modeMap = new HashMap<Integer, String>() {
+            {
+                put(2, "lastName");
+                put(3, "firstName");
+                put(4, "indexNumber");
+                put(5, "termNumber");
+                put(6, "courseName");
+                put(7, "job");
+                put(8, "seniority");
+                put(9, "salary");
+                put(10, "publicationsNumber");
+                put(11, "overtimeAmount");
+            }
+        };
+
+        String mode = "";
+        switch (searchMode) {
+            case 0:
+                for (Person person : HashSetsHolder.getInstance().getPeople()) {
+                    if (person instanceof Student student) {
+                        searchResult.add(student);
+                    }
+                }
+                break;
+            case 1:
+                for (Person person : HashSetsHolder.getInstance().getPeople()) {
+                    if (person instanceof Employee employee) {
+                        searchResult.add(employee);
+                    }
+                }
+                break;
+            case 2:
+            case 3:
+                mode = modeMap.get(searchMode);
+                searchResult.addAll(new StudentSearcher().search(people, mode, keyWord));
+                searchResult.addAll(new EmployeeSearcher().search(people, mode, keyWord));
+                break;
+            case 4:
+            case 5:
+            case 6:
+                mode = modeMap.get(searchMode);
+                searchResult.addAll(new StudentSearcher().search(people, mode, keyWord));
+                break;
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+                mode = modeMap.get(searchMode);
+                searchResult.addAll(new EmployeeSearcher().search(people, mode, keyWord));
+                break;
+            default:
+                System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
+                return;
+        }
+        fillPeopleTable(searchResult);
     }
 
     public void onSortPeopleButtonClicked(ActionEvent actionEvent) throws IOException {
@@ -181,7 +251,49 @@ public class WssController {
         restartTables();
     }
 
-    public void onSearchCoursesButtonClicked(ActionEvent actionEvent) {
+    public void onSearchCoursesButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/views/popups/SearchCoursesPopupView.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+
+        SearchCoursesPopupController popupController = loader.getController();
+
+        int searchMode = popupController.displayPopup(popupStage, root);
+        String keyWord = popupController.getKeyWord();
+        DidacticEmployee lecturer = popupController.getLecturer();
+        System.out.println(searchMode+" "+keyWord+" "+lecturer);
+
+        ArrayList<Course> searchResult = new ArrayList<>();
+
+        HashMap<Integer, String> modeMap = new HashMap<Integer, String>() {
+            {
+                put(0, "name");
+                put(1, "ECTS");
+                put(2, "courseCode");
+            }
+        };
+
+        String mode = "";
+        switch (searchMode) {
+            case 0:
+            case 1:
+            case 2:
+                mode = modeMap.get(searchMode);
+                searchResult.addAll(new CourseSearcher().search(courses, mode, keyWord));
+                break;
+            case 3:
+                if (lecturer == null) {
+                    System.out.println("LECTURER HASN'T BEEN CHOSEN");
+                    return;
+                }
+                searchResult.addAll(new CourseSearcher().search(courses, lecturer));
+                break;
+            default:
+                System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
+                return;
+        }
+        fillCoursesTable(searchResult);
     }
 
     public void onSortCoursesButtonClicked(ActionEvent actionEvent) {
