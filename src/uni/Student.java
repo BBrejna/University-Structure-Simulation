@@ -20,6 +20,10 @@ public class Student extends Person implements Serializable, Observer<CourseStat
     private boolean isOnRemote;
     private int numOfECTS = 0;
 
+    public int getNumOfECTS() {
+        return numOfECTS;
+    }
+
     @Override
     public boolean equals(Object obj) { //todo why this causes ArrayList.contains not find collisions
         if (this == obj) return true;

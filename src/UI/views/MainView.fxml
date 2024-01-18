@@ -10,7 +10,7 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="UI.controllers.MainController"
-            prefHeight="600.0" prefWidth="800.0">
+            prefHeight="600.0" prefWidth="900.0">
     <stylesheets>
         <URL value="@/UI/styles/style.css"/>
         <URL value="@/UI/styles/mainView.css"/>

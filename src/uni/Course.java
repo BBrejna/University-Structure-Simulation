@@ -163,6 +163,10 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         return courseState;
     }
 
+    public String getLecturerInfo() {
+        return lecturer.getlastName()+" "+lecturer.getPesel();
+    }
+
     @Override
     public String toString() {
         return "Course{" +
