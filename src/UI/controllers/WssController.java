@@ -106,10 +106,21 @@ public class WssController {
         peopleTable.getItems().clear();
         for (Person person : content) {
             String role = "";
-            if (person instanceof Student) role = "Student";
-            else if (person instanceof DidacticEmployee) role = "Didactic";
-            else if (person instanceof AdministrationEmployee) role = "Administration";
-            peopleTable.getItems().add(new PeopleTableElement(person.getName(), person.getlastName(), String.valueOf(person.getAge()), person.getPesel(), person.getGender(), role));
+            String salaryECTS = "";
+            if (person instanceof Student student) {
+                role = "Student";
+                salaryECTS = String.valueOf(student.getNumOfECTS());
+            }
+            else if (person instanceof DidacticEmployee didacticEmployee) {
+                role = "Didactic";
+                salaryECTS = String.valueOf(didacticEmployee.getSalary());
+            }
+            else if (person instanceof AdministrationEmployee administrationEmployee) {
+                role = "Administration";
+                salaryECTS = String.valueOf(administrationEmployee.getSalary());
+            }
+            peopleTable.getItems().add(new PeopleTableElement(person.getName(), person.getlastName(), String.valueOf(person.getAge()), person.getPesel(), person.getGender(), salaryECTS, role));
+            peopleTable.getSortOrder().clear();
         }
     }
     private void fillPeopleTable(MyHashSet<Person> content) {
@@ -129,6 +140,7 @@ public class WssController {
                 courseState = "FINISHED";
             }
             coursesTable.getItems().add(new CourseTableElement(course.getName(), String.valueOf(course.getECTS()), course.getCourseCode(), course.getLecturerInfo(), courseState));
+            coursesTable.getSortOrder().clear();
         }
     }
     private void fillCoursesTable(MyHashSet<Course> content) {

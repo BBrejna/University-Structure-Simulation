@@ -105,6 +105,9 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         return lecturer;
     }
     public String getLecturerLastName() {
+        if (lecturer == null) {
+            return "";
+        }
         return lecturer.getlastName();
     }
 
@@ -164,6 +167,9 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
     }
 
     public String getLecturerInfo() {
+        if (lecturer == null) {
+            return "";
+        }
         return lecturer.getlastName()+" "+lecturer.getPesel();
     }
 

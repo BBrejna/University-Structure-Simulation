@@ -174,7 +174,7 @@ public class ManageCoursesController {
         lecturerComboBox.getItems().clear();
         courseManageComboBox.getItems().clear();
     }
-    public void addStudentModeButtonClicked(ActionEvent actionEvent) {
+    public void addStudentModeButtonClicked() {
         clearAddComboBoxes();
         setCurrentSecondaryButton(addStudentCourseButton);
         loadCourses(courseComboBox);
@@ -191,7 +191,7 @@ public class ManageCoursesController {
         addDeleteButton.setText("Add");
     }
 
-    public void addLecturerModeButtonClicked(ActionEvent actionEvent) {
+    public void addLecturerModeButtonClicked() {
         clearAddComboBoxes();
         setCurrentSecondaryButton(addLecturerCourseButton);
         loadCourses(courseComboBox);
@@ -208,7 +208,7 @@ public class ManageCoursesController {
         addDeleteButton.setText("Add");
     }
 
-    public void removeStudentModeButtonClicked(ActionEvent actionEvent) {
+    public void removeStudentModeButtonClicked() {
         clearAddComboBoxes();
         setCurrentSecondaryButton(removeStudentCourseButton);
         loadCourses(courseComboBox);
@@ -225,7 +225,7 @@ public class ManageCoursesController {
         addDeleteButton.setText("Delete");
     }
 
-    public void removeDidacticModeButtonClicked(ActionEvent actionEvent) {
+    public void removeDidacticModeButtonClicked() {
         clearAddComboBoxes();
         setCurrentSecondaryButton(removeLecturerCourseButton);
         loadCourses(courseComboBox);
@@ -280,8 +280,55 @@ public class ManageCoursesController {
     }
 
     public void addDeleteStudentLecturer(ActionEvent actionEvent) {
+        Course course = courseComboBox.getSelectionModel().getSelectedItem();
+        Student student = studentComboBox.getSelectionModel().getSelectedItem();
+        DidacticEmployee lecturer = lecturerComboBox.getSelectionModel().getSelectedItem();
+
+        if (addStudentCourseButton == currentSecondaryButton) {
+            if (course == null || student == null) {
+                System.out.println("COURSE OR STUDENT HASN'T BEEN CHOSEN");
+                return;
+            }
+            course.addStudent(student);
+            addStudentModeButtonClicked();
+        }
+        else if (addLecturerCourseButton == currentSecondaryButton) {
+            if (course == null || lecturer == null) {
+                System.out.println("COURSE OR LECTURER HASN'T BEEN CHOSEN");
+                return;
+            }
+            course.setLecturer(lecturer);
+            addLecturerModeButtonClicked();
+        }
+        else if (removeStudentCourseButton == currentSecondaryButton) {
+            if (course == null || student == null) {
+                System.out.println("COURSE OR STUDENT HASN'T BEEN CHOSEN");
+                return;
+            }
+            course.removeStudent(student);
+            removeStudentModeButtonClicked();
+        }
+        else if (removeLecturerCourseButton == currentSecondaryButton) {
+            if (course == null || lecturer == null) {
+                System.out.println("COURSE OR LECTURER HASN'T BEEN CHOSEN");
+                return;
+            }
+            course.removeLecturer();
+            removeDidacticModeButtonClicked();
+        }
     }
 
     public void startFinishCourse(ActionEvent actionEvent) {
+        Course course = courseManageComboBox.getSelectionModel().getSelectedItem();
+        if (course == null) {
+            System.out.println("COURSE HASN'T BEEN CHOSEN");
+        } else {
+            if (startCourseButton.isDisabled()) {
+                course.startCourse();
+            } else {
+                course.finishCourse();
+            }
+        }
+        loadStartFinishCombo(true);
     }
 }

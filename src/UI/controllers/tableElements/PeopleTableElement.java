@@ -6,14 +6,16 @@ public class PeopleTableElement {
     String age;
     String pesel;
     String gender;
+    String salaryECTS;
     String role;
 
-    public PeopleTableElement(String name, String lastName, String age, String pesel, String gender, String role) {
+    public PeopleTableElement(String name, String lastName, String age, String pesel, String gender, String salaryECTS, String role) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
         this.pesel = pesel;
         this.gender = gender;
+        this.salaryECTS = salaryECTS;
         this.role = role;
     }
 
@@ -35,6 +37,10 @@ public class PeopleTableElement {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getSalaryECTS() {
+        return salaryECTS;
     }
 
     public String getRole() {

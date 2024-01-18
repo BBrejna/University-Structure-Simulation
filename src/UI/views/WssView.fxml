@@ -51,9 +51,14 @@
                             <javafx.scene.control.cell.PropertyValueFactory property="pesel"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Gender" prefWidth="50">
+                    <TableColumn text="Gender" prefWidth="80">
                         <cellValueFactory>
                             <javafx.scene.control.cell.PropertyValueFactory property="gender"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="ECTS/Salary" prefWidth="100">
+                        <cellValueFactory>
+                            <javafx.scene.control.cell.PropertyValueFactory property="SalaryECTS"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn text="Role" prefWidth="100">
