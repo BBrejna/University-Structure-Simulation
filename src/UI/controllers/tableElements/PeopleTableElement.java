@@ -3,13 +3,15 @@ package UI.controllers.tableElements;
 public class PeopleTableElement {
     String name;
     String lastName;
+    String age;
     String pesel;
     String gender;
     String role;
 
-    public PeopleTableElement(String name, String lastName, String pesel, String gender, String role) {
+    public PeopleTableElement(String name, String lastName, String age, String pesel, String gender, String role) {
         this.name = name;
         this.lastName = lastName;
+        this.age = age;
         this.pesel = pesel;
         this.gender = gender;
         this.role = role;
@@ -21,6 +23,10 @@ public class PeopleTableElement {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getAge() {
+        return age;
     }
 
     public String getPesel() {

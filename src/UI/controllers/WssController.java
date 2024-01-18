@@ -1,20 +1,32 @@
 package UI.controllers;
 
+import UI.controllers.popups.SortPeoplePopupController;
 import UI.controllers.tableElements.CourseTableElement;
 import UI.controllers.tableElements.PeopleTableElement;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import tools.HashSetsHolder;
+import tools.MyHashSet;
+import tools.Writer;
 import uni.*;
 
 import javax.tools.Diagnostic;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class WssController {
+    MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
+    MyHashSet<Course> courses = HashSetsHolder.getInstance().getCourses();
     public TableView<CourseTableElement> coursesTable;
     public TableView<PeopleTableElement> peopleTable;
+    public Button sortPeopleButton;
 
     public void initialize() {
         ControllersHandler.getInstance().setWssController(this);
@@ -89,18 +101,25 @@ public class WssController {
         alert.showAndWait();
     }
 
-    private void restartTables() {
+    private void fillPeopleTable(ArrayList<Person> content) {
         peopleTable.getItems().clear();
-        coursesTable.getItems().clear();
-
-        for (Person person : HashSetsHolder.getInstance().getPeople()) {
+        for (Person person : content) {
             String role = "";
             if (person instanceof Student) role = "Student";
             else if (person instanceof DidacticEmployee) role = "Didactic";
             else if (person instanceof AdministrationEmployee) role = "Administration";
-            peopleTable.getItems().add(new PeopleTableElement(person.getName(), person.getlastName(), person.getPesel(), person.getGender(), role));
+            peopleTable.getItems().add(new PeopleTableElement(person.getName(), person.getlastName(), String.valueOf(person.getAge()), person.getPesel(), person.getGender(), role));
         }
-        for (Course course : HashSetsHolder.getInstance().getCourses()) {
+    }
+    private void fillPeopleTable(MyHashSet<Person> content) {
+        fillPeopleTable(new ArrayList<>(content));
+    }
+
+    private void fillCoursesTable(ArrayList<Course> content) {
+        coursesTable.getItems().clear();
+
+
+        for (Course course : content) {
             String courseState = "NOT STARTED";
             if (course.getCourseState().isStarted() && !course.getCourseState().isFinished()) {
                 courseState = "STARTED";
@@ -111,6 +130,13 @@ public class WssController {
             coursesTable.getItems().add(new CourseTableElement(course.getName(), String.valueOf(course.getECTS()), course.getCourseCode(), course.getLecturerInfo(), courseState));
         }
     }
+    private void fillCoursesTable(MyHashSet<Course> content) {
+        fillCoursesTable(new ArrayList<>(content));
+    }
+    private void restartTables() {
+        fillPeopleTable(HashSetsHolder.getInstance().getPeople());
+        fillCoursesTable(HashSetsHolder.getInstance().getCourses());
+    }
 
     public void onClearPeopleFiltersButtonClicked(ActionEvent actionEvent) {
         restartTables();
@@ -119,7 +145,36 @@ public class WssController {
     public void onSearchPeopleButtonClicked(ActionEvent actionEvent) {
     }
 
-    public void onSortPeopleButtonClicked(ActionEvent actionEvent) {
+    public void onSortPeopleButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/views/popups/SortPeoplePopupView.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+
+        SortPeoplePopupController popupController = loader.getController();
+
+        int sortMode = popupController.displayPopup(popupStage, root);
+//        return (popupController.displayPopup(popupStage, root));
+
+        ArrayList<Person> sortResult = null;
+
+        switch (sortMode) {
+            case 1:
+                sortResult = people.sort(Comparator.comparing(Person::getlastName));
+                break;
+            case 2:
+                sortResult = people.sort(Comparator.comparing(Person::getlastName)
+                        .thenComparing(Person::getName));
+                break;
+            case 3:
+                sortResult = people.sort(Comparator.comparing(Person::getlastName)
+                        .thenComparing(Person::getAge, Comparator.reverseOrder()));
+                break;
+            default:
+                System.out.println("WRONG CRITERIA NUMBER. RETURNING!");
+                return;
+        }
+        fillPeopleTable(sortResult);
     }
 
     public void onClearCoursesFiltersButtonClicked(ActionEvent actionEvent) {
@@ -130,5 +185,8 @@ public class WssController {
     }
 
     public void onSortCoursesButtonClicked(ActionEvent actionEvent) {
+        ArrayList<Course> sortResult = courses.sort(Comparator.comparing(Course::getECTS)
+                .thenComparing(Course::getLecturerLastName));
+        fillCoursesTable(sortResult);
     }
 }

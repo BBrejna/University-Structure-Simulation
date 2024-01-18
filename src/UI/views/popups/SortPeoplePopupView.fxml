@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="UI.controllers.popups.SortPeoplePopupController"
+      styleClass="container" alignment="CENTER" style="-fx-padding: 10">
+
+    <stylesheets>
+        <URL value="@/UI/styles/style.css"/>
+        <URL value="@/UI/styles/popup.css"/>
+    </stylesheets>
+
+    <Label text="Please choose sorting mode"/>
+    <HBox styleClass="container">
+        <Button styleClass="customButton, primaryButton" text="Last name" onAction="#onMode1Chosen"/>
+        <Button styleClass="customButton, primaryButton" text="Last name, then first name" onAction="#onMode2Chosen"/>
+        <Button styleClass="customButton, primaryButton" text="Last name, then age" onAction="#onMode3Chosen"/>
+    </HBox>
+
+</VBox>
