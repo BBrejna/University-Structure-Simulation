@@ -6,23 +6,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import tools.HashSetsHolder;
-import tools.MyHashSet;
-import tools.Serializer;
+import tools.*;
 import uni.Course;
 import uni.DidacticEmployee;
 import uni.Person;
+import uni.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class IoController {
+
+    public TextField textFieldStudentKeyWord;
 
     public void initialize() {
         ControllersHandler.getInstance().setIoController(this);
@@ -90,6 +90,10 @@ public class IoController {
     private HBox deleteButtonBox;
     @FXML
     private HBox filesIoButtonBox;
+    @FXML
+    private ToggleGroup toggleStudentCriteria;
+    @FXML
+    private ToggleGroup toggleCourseCriteria;
 
     private Button currentMainButton = null;
     private Button currentSecondaryButton = null;
@@ -260,12 +264,73 @@ public class IoController {
         lecturerComboBox.setItems(availableLecturers);
     }
 
+    private int getChosenRadioId(ToggleGroup group) {
+        int i = 0;
+        for (;i < group.getToggles().size(); i++) {
+            if (group.getSelectedToggle().equals(group.getToggles().get(i))) {
+                break;
+            }
+        }
+        return i;
+    }
+
     public void deletePerson(ActionEvent actionEvent) {
         System.out.println("DELETE XD");
+        boolean deletingStudent = currentSecondaryButton == deleteStudentButton;
+        int selectedId = getChosenRadioId(toggleStudentCriteria);
+        String keyWord = textFieldStudentKeyWord.getText();
+        HashMap<Integer, String> modeMap = new HashMap<Integer, String>() {
+            {
+                put(0, "lastName");
+                put(1, "firstName");
+                put(2, "indexNumber");
+                put(3, "termNumber");
+                put(4, "courseName");
+                put(5, "job");
+                put(6, "seniority");
+                put(7, "salary");
+                put(8, "publicationsNumber");
+                put(9, "overtimeAmount");
+            }
+        };
+
+        String mode = modeMap.get(selectedId);
+
+        System.out.println(deletingStudent+" "+mode+" "+keyWord);
+
+        Searcher<? extends Person, Person> searcher = new StudentSearcher();
+        if (!deletingStudent) {
+            searcher = new EmployeeSearcher();
+        }
+
+        ArrayList<Person> searchResult = new ArrayList<Person>(searcher.search(people, mode, keyWord));
+        System.out.println(searchResult);
+
+        searchResult.forEach(people::remove);
+        if (deletingStudent) { //todo naprawić to, że usuwanie w studencie i lecturerze, jak i kursie odwołuje się nie do obiektu z arrayki kursów, tylko do tej kopii od siebie po serializacji
+            searchResult.forEach(person -> {
+                Student student = (Student) person;
+                ArrayList<Course> studentCourses = new ArrayList<>(student.getCourses());
+                studentCourses.forEach(student::removeCourse);
+            });
+        }
+        else {
+            searchResult.forEach(person -> {
+                if (person instanceof DidacticEmployee didacticEmployee) {
+                    ArrayList<Course> lecturerCourses = new ArrayList<>(didacticEmployee.getCourses());
+                    lecturerCourses.forEach(Course::removeLecturer);
+                }
+            });
+        }
+        int deletedCount = searchResult.size();
+        showAlert("DELETED "+deletedCount+" "+(deletedCount > 1 ? "PEOPLE" : "PERSON")+"!");
     }
 
     public void deleteCourse(ActionEvent actionEvent) {
         System.out.println("DELETE JD");
+        int selectedId = getChosenRadioId(toggleCourseCriteria);
+        RadioButton chosen = (RadioButton) toggleCourseCriteria.getSelectedToggle();
+        System.out.println(selectedId+" "+chosen);
     }
 
     private void showAlert(String infoString) {
