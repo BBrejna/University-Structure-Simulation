@@ -1,5 +1,6 @@
 package uni;
 
+import tools.HashSetsHolder;
 import tools.Observer;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class Student extends Person implements Serializable, Observer<CourseStat
     }
 
     @Override
-    public boolean equals(Object obj) { //todo why this causes ArrayList.contains not find collisions
+    public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 //        if (! super.equals(obj)) return false;
@@ -117,6 +118,8 @@ public class Student extends Person implements Serializable, Observer<CourseStat
         courses.forEach(this::addCourse);
     }
     public void addCourse(Course course) {
+        course = HashSetsHolder.getInstance().getMapCourseCodeToCourse().get(course.getCourseCode());
+
         if (this.courses.contains(course)) return;
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Course")) {
@@ -127,12 +130,15 @@ public class Student extends Person implements Serializable, Observer<CourseStat
         course.addObserver(this);
     }
     public void removeCourse(Course course) {
+        course = HashSetsHolder.getInstance().getMapCourseCodeToCourse().get(course.getCourseCode());
+
         if (!this.courses.contains(course)) return;
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Course")) {
             System.out.println("Called removeCourse from "+Thread.currentThread().getStackTrace()[2].getClassName());
             course.removeStudent(this);
         }
+
         courses.remove(course);
         course.removeObserver(this);
     }

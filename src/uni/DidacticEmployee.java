@@ -1,5 +1,7 @@
 package uni;
 
+import tools.HashSetsHolder;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serial;
@@ -39,6 +41,10 @@ public class DidacticEmployee extends Employee implements Serializable {
         courses.forEach(this::addCourse);
     }
     public void addCourse(Course course) {
+        course = HashSetsHolder.getInstance().getMapCourseCodeToCourse().get(course.getCourseCode());
+
+        if (this.courses.contains(course)) return;
+
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Course")) {
             System.out.println("Called addCourse from "+Thread.currentThread().getStackTrace()[2].getClassName());
             course.setLecturer(this);
@@ -46,6 +52,10 @@ public class DidacticEmployee extends Employee implements Serializable {
         courses.add(course);
     }
     public void removeCourse(Course course) {
+        course = HashSetsHolder.getInstance().getMapCourseCodeToCourse().get(course.getCourseCode());
+
+        if (!this.courses.contains(course)) return;
+
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Course")) {
             System.out.println("Called addCourse from "+Thread.currentThread().getStackTrace()[2].getClassName());
             course.removeLecturer();

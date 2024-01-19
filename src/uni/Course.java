@@ -1,5 +1,6 @@
 package uni;
 
+import tools.HashSetsHolder;
 import tools.ObserverSubject;
 
 import java.io.Serializable;
@@ -112,7 +113,9 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
     }
 
     public void setLecturer(DidacticEmployee lecturer) {
-        if (lecturer == this.lecturer) return;
+        lecturer = (DidacticEmployee) HashSetsHolder.getInstance().getMapPeselToPerson().get(lecturer.getPesel());
+
+        if (lecturer.equals(this.lecturer)) return;
 
         if (this.lecturer != null) this.lecturer.removeCourse(this);
 
@@ -125,6 +128,8 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
     }
     public void removeLecturer() {
         if (this.lecturer == null) return;
+
+        DidacticEmployee lecturer = (DidacticEmployee) HashSetsHolder.getInstance().getMapPeselToPerson().get(this.lecturer.getPesel());
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.DidacticEmployee")) {
             System.out.println("Called removeLecturer from "+Thread.currentThread().getStackTrace()[2].getClassName());
@@ -144,6 +149,8 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
     }
 
     public void addStudent(Student student) {
+        student = (Student) HashSetsHolder.getInstance().getMapPeselToPerson().get(student.getPesel());
+
         if (this.students.contains(student)) return;
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Student")) {
@@ -153,10 +160,12 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         students.add(student);
     }
     public void removeStudent(Student student) {
+        student = (Student) HashSetsHolder.getInstance().getMapPeselToPerson().get(student.getPesel());
+
         if (!this.students.contains(student)) return;
 
         if (! Thread.currentThread().getStackTrace()[2].getClassName().equals("uni.Student")) {
-            System.out.println("Called addStudent from "+Thread.currentThread().getStackTrace()[2].getClassName());
+            System.out.println("Called removeStudent from "+Thread.currentThread().getStackTrace()[2].getClassName());
             student.removeCourse(this);
         }
         students.remove(student);

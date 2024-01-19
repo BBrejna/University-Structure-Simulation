@@ -23,6 +23,7 @@ import java.util.HashMap;
 public class IoController {
 
     public TextField textFieldStudentKeyWord;
+    public TextField textFieldCourseKeyWord;
 
     public void initialize() {
         ControllersHandler.getInstance().setIoController(this);
@@ -306,8 +307,8 @@ public class IoController {
         ArrayList<Person> searchResult = new ArrayList<Person>(searcher.search(people, mode, keyWord));
         System.out.println(searchResult);
 
-        searchResult.forEach(people::remove);
-        if (deletingStudent) { //todo naprawić to, że usuwanie w studencie i lecturerze, jak i kursie odwołuje się nie do obiektu z arrayki kursów, tylko do tej kopii od siebie po serializacji
+        searchResult.forEach(HashSetsHolder.getInstance()::remove);
+        if (deletingStudent) {
             searchResult.forEach(person -> {
                 Student student = (Student) person;
                 ArrayList<Course> studentCourses = new ArrayList<>(student.getCourses());
@@ -318,7 +319,7 @@ public class IoController {
             searchResult.forEach(person -> {
                 if (person instanceof DidacticEmployee didacticEmployee) {
                     ArrayList<Course> lecturerCourses = new ArrayList<>(didacticEmployee.getCourses());
-                    lecturerCourses.forEach(Course::removeLecturer);
+                    lecturerCourses.forEach(didacticEmployee::removeCourse);
                 }
             });
         }
@@ -329,8 +330,42 @@ public class IoController {
     public void deleteCourse(ActionEvent actionEvent) {
         System.out.println("DELETE JD");
         int selectedId = getChosenRadioId(toggleCourseCriteria);
-        RadioButton chosen = (RadioButton) toggleCourseCriteria.getSelectedToggle();
-        System.out.println(selectedId+" "+chosen);
+        String keyWord = textFieldCourseKeyWord.getText();
+        DidacticEmployee lecturer = lecturerComboBox.getSelectionModel().getSelectedItem();
+
+        HashMap<Integer, String> modeMap = new HashMap<Integer, String>() {
+            {
+                put(0, "name");
+                put(1, "ECTS");
+                put(2, "courseCode");
+                put(3, "lecturer");
+            }
+        };
+        String mode = modeMap.get(selectedId);
+        CourseSearcher searcher = new CourseSearcher();
+        ArrayList<Course> searchResult = new ArrayList<>();
+
+        if (selectedId == 3) {
+            if (lecturer == null) {
+                System.out.println("LECTURER HASN'T BEEN CHOSEN");
+                return;
+            } else {
+                searchResult.addAll(searcher.search(courses, lecturer));
+            }
+        }
+        else {
+            searchResult.addAll(searcher.search(courses, mode, keyWord));
+        }
+        System.out.println(searchResult);
+
+        searchResult.forEach(HashSetsHolder.getInstance()::remove);
+        searchResult.forEach(course -> {
+            ArrayList<Student> courseStudents = new ArrayList<>(course.getStudents());
+            courseStudents.forEach(course::removeStudent);
+        });
+
+        int deletedCount = searchResult.size();
+        showAlert("DELETED "+deletedCount+" "+(deletedCount > 1 ? "COURSES" : "COURSE")+"!");
     }
 
     private void showAlert(String infoString) {
