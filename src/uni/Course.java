@@ -184,12 +184,13 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
 
     @Override
     public String toString() {
-        return "Course{" +
-                "name='" + name + '\'' +
-                ", ECTS=" + ECTS +
-                ", courseCode='" + courseCode + '\'' +
-                ", lecturer={" + lecturer + "}" +
-//                ", students=" + students +
-                '}';
+//        return "Course{" +
+//                "name='" + name + '\'' +
+//                ", ECTS=" + ECTS +
+//                ", courseCode='" + courseCode + '\'' +
+//                ", lecturer={" + lecturer + "}" +
+////                ", students=" + students +
+//                '}';
+        return name+" ("+courseCode+", "+ECTS+" ECTS)";
     }
 }

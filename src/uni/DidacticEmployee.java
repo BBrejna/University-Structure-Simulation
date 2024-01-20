@@ -70,11 +70,11 @@ public class DidacticEmployee extends Employee implements Serializable {
         if (publicationsNumber < 0) publicationsNumber = 0;
         this.publicationsNumber = publicationsNumber;
     }
-
-    @Override
-    public String toString() {
-        return "DidacticEmployee{" +
-                "publicationsNumber=" + publicationsNumber +
-                "} " + super.toString();
-    }
+//
+//    @Override
+//    public String toString() {
+//        return "DidacticEmployee{" +
+//                "publicationsNumber=" + publicationsNumber +
+//                "} " + super.toString();
+//    }
 }

@@ -184,17 +184,18 @@ public class Student extends Person implements Serializable, Observer<CourseStat
 
     @Override
     public String toString() {
-        return "Student{" +
-                "indexNumber=" + indexNumber +
-                ", termNumber=" + termNumber +
-                ", ECTS amount=" + numOfECTS +
-//                ", courses=" + courses +
-                ", inErasmus=" + inErasmus +
-                ", isOn1Degree=" + isOn1Degree +
-                ", isOn2Degree=" + isOn2Degree +
-                ", isOnDaily=" + isOnDaily +
-                ", isOnRemote=" + isOnRemote +
-                "} " + super.toString();
+//        return "Student{" +
+//                "indexNumber=" + indexNumber +
+//                ", termNumber=" + termNumber +
+//                ", ECTS amount=" + numOfECTS +
+////                ", courses=" + courses +
+//                ", inErasmus=" + inErasmus +
+//                ", isOn1Degree=" + isOn1Degree +
+//                ", isOn2Degree=" + isOn2Degree +
+//                ", isOnDaily=" + isOnDaily +
+//                ", isOnRemote=" + isOnRemote +
+//                "} " + super.toString();
+        return name+" "+lastName+" ("+indexNumber+")";
     }
 
     @Override

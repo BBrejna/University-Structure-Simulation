@@ -51,10 +51,11 @@ public abstract class Employee extends Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "job='" + job + '\'' +
-                ", seniority=" + seniority +
-                ", salary=" + salary +
-                "} " + super.toString();
+//        return "Employee{" +
+//                "job='" + job + '\'' +
+//                ", seniority=" + seniority +
+//                ", salary=" + salary +
+//                "} " + super.toString();
+        return name+" "+lastName+" ("+pesel+")";
     }
 }

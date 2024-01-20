@@ -7,17 +7,18 @@ public class Main {
     public static void main(String[] args) {
         Serializer<Course> serializerCourse = new Serializer<>();
         Serializer<Person> serializerPeople = new Serializer<>();
-        MyHashSet<Person> people = new MyHashSet<>();
-        MyHashSet<Course> courses = new MyHashSet<>();
+        MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
+        MyHashSet<Course> courses = HashSetsHolder.getInstance().getCourses();
+        HashSetsHolder holder = HashSetsHolder.getInstance();
 
-        people.add(new Student("Bartosz", "Brejna", "123456789", 19.8, "Male", 280490, 1, true, true));
-        people.add(new Student("Aleksander", "Janic", "987654321", 3.5, "Male", 280123, 1, true, true));
-        people.add(new Student("Michal", "Strugarek", "123789456", 10, "Male", 280456, 1, true, true));
-        people.add(new DidacticEmployee("Martin", "Tabakow", "000111222", 40, "Male", "Lecturer", 15, 5000));
-        people.add(new DidacticEmployee("Ulyana", "Yarka", "777888999", 35, "Female", "Lecturer", 12, 4500));
-        people.add(new AdministrationEmployee("Gal", "Anonim", "123123123", 45, "Male", "Secretary", 12, 43999, 30));
+        holder.add(new Student("Bartosz", "Brejna", "123456789", 19.8, "Male", 280490, 1, true, true));
+        holder.add(new Student("Aleksander", "Janic", "987654321", 3.5, "Male", 280123, 1, true, true));
+        holder.add(new Student("Michal", "Strugarek", "123789456", 10, "Male", 280456, 1, true, true));
+        holder.add(new DidacticEmployee("Martin", "Tabakow", "000111222", 40, "Male", "Lecturer", 15, 5000));
+        holder.add(new DidacticEmployee("Ulyana", "Yarka", "777888999", 35, "Female", "Lecturer", 12, 4500));
+        holder.add(new AdministrationEmployee("Gal", "Anonim", "123123123", 45, "Male", "Secretary", 12, 43999, 30));
 
-        courses.add(new Course("PSiO", 5, "PSiO-sem1-2023", (DidacticEmployee) people.get(0)));
+        holder.add(new Course("PSiO", 5, "PSiO-sem1-2023", (DidacticEmployee) people.get(0)));
 
 //        people = serializerPeople.readFromFile("people.txt");
 //        courses = serializerCourse.readFromFile("courses.txt");

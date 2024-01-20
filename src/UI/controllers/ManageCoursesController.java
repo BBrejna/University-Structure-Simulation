@@ -17,7 +17,7 @@ import uni.DidacticEmployee;
 import uni.Person;
 import uni.Student;
 
-public class ManageCoursesController {
+public class ManageCoursesController extends AbstractController {
 
     public void initialize() {
         ControllersHandler.getInstance().setManageCoursesController(this);
@@ -29,7 +29,7 @@ public class ManageCoursesController {
 
         setCurrentMainButton(null);
 
-        disableSecondarySection();
+        disableSecondarySection(MainStackPane);
     }
 
     public Button addToCourseButton;
@@ -57,41 +57,9 @@ public class ManageCoursesController {
     public ComboBox<Course> courseManageComboBox;
     public Button startFinishButton;
 
-    private Button currentMainButton = null;
-    private Button currentSecondaryButton = null;
-
-    private void setCurrentMainButton(Button newButton) {
-        if (currentMainButton != null) {
-            currentMainButton.setDisable(false);
-        }
-        currentMainButton = newButton;
-        if (currentMainButton != null) {
-            currentMainButton.setDisable(true);
-        }
-    }
-    private void setCurrentSecondaryButton(Button newButton) {
-        if (currentSecondaryButton != null) {
-            currentSecondaryButton.setDisable(false);
-        }
-        currentSecondaryButton = newButton;
-        if (currentSecondaryButton != null) {
-            currentSecondaryButton.setDisable(true);
-        }
-    }
-    private void disableSecondarySection() {
-        turnOffStackPaneChildren(MainStackPane);
-        setCurrentSecondaryButton(null);
-    }
-
     private void restartStudentDidacticCourseButtons() {
         turnOffStackPaneChildren(studentDidacticCourseStackPane);
         studentDidacticCourseButtons.setVisible(true);
-    }
-    private void turnOffStackPaneChildren(StackPane elem) {
-        for (Node children : elem.getChildren()) {
-            children.setVisible(false);
-            children.setManaged(true);
-        }
     }
 
     public void addToCourseButtonClicked(ActionEvent actionEvent) {
@@ -99,7 +67,7 @@ public class ManageCoursesController {
         addToCourseButtonBox.setVisible(true);
         setCurrentMainButton(addToCourseButton);
         
-        disableSecondarySection();
+        disableSecondarySection(MainStackPane);
     }
 
     public void removeFromCourseButtonClicked(ActionEvent actionEvent) {
@@ -107,7 +75,7 @@ public class ManageCoursesController {
         removeFromCourseButtonBox.setVisible(true);
         setCurrentMainButton(removeFromCourseButton);
 
-        disableSecondarySection();
+        disableSecondarySection(MainStackPane);
     }
 
     public void courseManagementButtonClicked(ActionEvent actionEvent) {
@@ -115,7 +83,7 @@ public class ManageCoursesController {
         courseButtonBox.setVisible(true);
         setCurrentMainButton(courseManagementButton);
 
-        disableSecondarySection();
+        disableSecondarySection(MainStackPane);
     }
 
 
@@ -290,6 +258,7 @@ public class ManageCoursesController {
                 return;
             }
             course.addStudent(student);
+            showAlert("Student added to the course!");
             addStudentModeButtonClicked();
         }
         else if (addLecturerCourseButton == currentSecondaryButton) {
@@ -298,6 +267,7 @@ public class ManageCoursesController {
                 return;
             }
             course.setLecturer(lecturer);
+            showAlert("Lecturer assigned to the course!");
             addLecturerModeButtonClicked();
         }
         else if (removeStudentCourseButton == currentSecondaryButton) {
@@ -306,6 +276,7 @@ public class ManageCoursesController {
                 return;
             }
             course.removeStudent(student);
+            showAlert("Student removed from the course!");
             removeStudentModeButtonClicked();
         }
         else if (removeLecturerCourseButton == currentSecondaryButton) {
@@ -314,6 +285,7 @@ public class ManageCoursesController {
                 return;
             }
             course.removeLecturer();
+            showAlert("Lecturer removed from the course!");
             removeDidacticModeButtonClicked();
         }
     }
@@ -325,8 +297,10 @@ public class ManageCoursesController {
         } else {
             if (startCourseButton.isDisabled()) {
                 course.startCourse();
+                showAlert("Course has been started!");
             } else {
                 course.finishCourse();
+                showAlert("Course has been finished!");
             }
         }
         loadStartFinishCombo(true);

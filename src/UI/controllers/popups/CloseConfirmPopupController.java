@@ -1,28 +1,39 @@
 package UI.controllers.popups;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class SortPeoplePopupController {
+import java.util.ArrayList;
+
+public class CloseConfirmPopupController {
     private Stage stage;
-    int answer=0;
+    private boolean answer;
+    @FXML
+    private Button confirm;
+    @FXML
+    private Button cancel;
 
 
-    public int displayPopup(Stage stage, Parent root) {
+    public boolean displayPopup(Stage stage, Parent root) {
         this.stage = stage;
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Choose sorting option");
+        stage.setTitle("Close the program");
 
         stage.setOnCloseRequest(e -> {
             e.consume();
-            answer=-1;
-            closeWindow();
+            onCancelButtonClicked();
         });
 
         Scene scene = new Scene(root);
@@ -32,12 +43,22 @@ public class SortPeoplePopupController {
         return answer;
     }
 
+    @FXML
+    private void onCancelButtonClicked() {
+        answer=false;
+        closeWindow();
+    }
+    @FXML
+    public void onConfirmButtonClicked() {
+        answer=true;
+        closeWindow();
+    }
+
     private void closeWindow() {
         if (stage != null) {
             stage.close();
         }
     }
-
 
 
     @FXML
@@ -46,18 +67,4 @@ public class SortPeoplePopupController {
     }
 
 
-    public void onMode1Chosen(ActionEvent actionEvent) {
-        answer = 1;
-        closeWindow();
-    }
-
-    public void onMode2Chosen(ActionEvent actionEvent) {
-        answer = 2;
-        closeWindow();
-    }
-
-    public void onMode3Chosen(ActionEvent actionEvent) {
-        answer = 3;
-        closeWindow();
-    }
 }

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -35,7 +36,7 @@ public class SearchPeoplePopupController {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-//        stage.getIcons().add(new Image("/resources/icon.png"));
+        stage.getIcons().add(new Image("/UI/resources/icon.png"));
         stage.showAndWait();
         return answer;
     }

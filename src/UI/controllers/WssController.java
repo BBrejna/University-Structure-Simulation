@@ -56,6 +56,10 @@ public class WssController {
         };
         ArrayList<String> infoArray = new ArrayList<>(Arrays.asList(personInfo));
         if (myPerson instanceof Student student) {
+            String coursesString = "";
+            for (Course course : student.getCourses()) {
+                coursesString += "\n\t"+course;
+            }
             String[] studentInfo = new String[]{
                     "Index number: "+student.getIndexNumber(),
                     "ECTS: "+student.getNumOfECTS(),
@@ -63,6 +67,7 @@ public class WssController {
                     "Degree: "+(student.isOn1Degree() ? "1" : "2"),
                     "Daily: "+(student.isOnDaily() ? "true" : "false"),
                     "Erasmus: "+(student.isInErasmus() ? "true" : "false"),
+                    "Courses: "+coursesString,
             };
             infoArray.addAll(Arrays.asList(studentInfo));
         }
@@ -75,7 +80,12 @@ public class WssController {
             infoArray.addAll(Arrays.asList(employeeInfo));
         }
         if (myPerson instanceof DidacticEmployee didacticEmployee) {
+            String coursesString = "";
+            for (Course course : didacticEmployee.getCourses()) {
+                coursesString += "\n\t"+course;
+            }
             infoArray.add("Publications: "+didacticEmployee.getPublicationsNumber());
+            infoArray.add("Courses: "+coursesString);
         }
         if (myPerson instanceof AdministrationEmployee administrationEmployee) {
             infoArray.add("Overtime: "+administrationEmployee.getOvertimeAmount()+"h");

@@ -1,9 +1,14 @@
 package UI.controllers;
 
+import UI.controllers.popups.CloseConfirmPopupController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainController {
     @FXML
@@ -58,5 +63,17 @@ public class MainController {
         disabledButton = ioButton;
         disabledButton.getStyleClass().add("activeButton");
         currentContent = ioContent;
+    }
+
+    public boolean handleCloseButtonClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/views/popups/CloseConfirmPopupView.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+
+        CloseConfirmPopupController popupController = loader.getController();
+
+        return (popupController.displayPopup(popupStage, root));
+
     }
 }

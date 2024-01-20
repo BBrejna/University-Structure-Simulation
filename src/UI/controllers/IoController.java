@@ -11,19 +11,34 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tools.*;
-import uni.Course;
-import uni.DidacticEmployee;
-import uni.Person;
-import uni.Student;
+import uni.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class IoController {
+public class IoController extends AbstractController {
 
     public TextField textFieldStudentKeyWord;
     public TextField textFieldCourseKeyWord;
+    public TextField textFieldCourseName;
+    public TextField textFieldECTS;
+    public TextField textFieldCourseCode;
+    public TextField textFieldName;
+    public TextField textFieldLastName;
+    public TextField textFieldPesel;
+    public TextField textFieldAge;
+    public TextField textFieldGender;
+    public TextField textFieldIndex;
+    public TextField textFieldTerm;
+    public TextField textFieldJob;
+    public TextField textFieldSeniority;
+    public TextField textFieldSalary;
+    public TextField textFieldPublications;
+    public TextField textFieldOvertime;
+    public ToggleGroup toggleDegree;
+    public ToggleGroup toggleDaily;
+    public ToggleGroup toggleErasmus;
 
     public void initialize() {
         ControllersHandler.getInstance().setIoController(this);
@@ -34,7 +49,7 @@ public class IoController {
 
         setCurrentMainButton(null);
 
-        disableSecondarySection();
+        disableSecondarySection(InputStackPane);
     }
 
     MyHashSet<Person> people = HashSetsHolder.getInstance().getPeople();
@@ -96,38 +111,12 @@ public class IoController {
     @FXML
     private ToggleGroup toggleCourseCriteria;
 
-    private Button currentMainButton = null;
-    private Button currentSecondaryButton = null;
-    private void setCurrentMainButton(Button newButton) {
-        if (currentMainButton != null) {
-            currentMainButton.setDisable(false);
-        }
-        currentMainButton = newButton;
-        if (currentMainButton != null) {
-            currentMainButton.setDisable(true);
-        }
-    }
-    private void setCurrentSecondaryButton(Button newButton) {
-        if (currentSecondaryButton != null) {
-            currentSecondaryButton.setDisable(false);
-        }
-        currentSecondaryButton = newButton;
-        if (currentSecondaryButton != null) {
-            currentSecondaryButton.setDisable(true);
-        }
-    }
-
-    private void disableSecondarySection() {
-        turnOffStackPaneChildren(InputStackPane);
-        setCurrentSecondaryButton(null);
-    }
-
     public void addButtonClicked(ActionEvent actionEvent) {
         restartAddDeleteFilesIoSection();
         addButtonBox.setVisible(true);
         setCurrentMainButton(addingButton);
 
-        disableSecondarySection();
+        disableSecondarySection(InputStackPane);
     }
 
     public void deleteButtonClicked(ActionEvent actionEvent) {
@@ -135,7 +124,7 @@ public class IoController {
         deleteButtonBox.setVisible(true);
         setCurrentMainButton(deletingButton);
 
-        disableSecondarySection();
+        disableSecondarySection(InputStackPane);
     }
 
     public void filesIoButtonClicked(ActionEvent actionEvent) {
@@ -143,7 +132,7 @@ public class IoController {
         filesIoButtonBox.setVisible(true);
         setCurrentMainButton(filesIoButton);
 
-        disableSecondarySection();
+        disableSecondarySection(InputStackPane);
     }
 
     public void addStudentModeButtonClicked(ActionEvent actionEvent) {
@@ -200,21 +189,124 @@ public class IoController {
         turnOffStackPaneChildren(addDeleteFilesIoStackPane);
         addDeleteFilesIoButtons.setVisible(true);
     }
-    private void turnOffStackPaneChildren(StackPane elem) {
-        for (Node children : elem.getChildren()) {
-            children.setVisible(false);
-            children.setManaged(true);
-        }
-    }
-
-
-
 
     public void addCourse() {
-        System.out.println("JD");
+        String courseName = textFieldCourseName.getText();
+        String courseECTS = textFieldECTS.getText();
+        String courseCode = textFieldCourseCode.getText();
+
+        if (courseName.isEmpty() || courseECTS.isEmpty() || courseCode.isEmpty()) {
+            showAlert("No course info can be empty!");
+        }
+        else if (!isPositiveInt(courseECTS)) {
+            showAlert("ECTS number must be a positive integer!");
+        }
+        else {
+            int ECTS = Integer.parseInt(courseECTS);
+
+            Course tmp = new Course(courseName, ECTS, courseCode);
+
+            if (HashSetsHolder.getInstance().add(tmp)) {
+                showAlert("Course added succesfully!\n"+tmp);
+            } else {
+                showAlert("ERROR in adding course!");
+            }
+        }
     }
     public void addPerson() {
-        System.out.println("XD");
+        String name = textFieldName.getText();
+        String lastName = textFieldLastName.getText();
+        String PESEL = textFieldPesel.getText();
+        String age = textFieldAge.getText();
+        String gender = textFieldGender.getText();
+
+        if (name.isEmpty() || lastName.isEmpty() || PESEL.isEmpty() || age.isEmpty() || gender.isEmpty()) {
+            showAlert("No personal info can be empty!");
+        }
+        else if (!isPositive(age)) {
+            showAlert("Age must be a positive number!");
+        }
+        else {
+            double ageDouble = Double.parseDouble(age);
+
+            if (currentSecondaryButton == addStudentButton) {
+                String indexNumber = textFieldIndex.getText();
+                String termNumber = textFieldTerm.getText();
+                boolean isOn1Degree = toggleDegree.getToggles().get(0).isSelected();
+                boolean isOnDaily = toggleDaily.getToggles().get(0).isSelected();
+                boolean isOnErasmus = toggleErasmus.getToggles().get(0).isSelected();
+
+                if (indexNumber.isEmpty() || termNumber.isEmpty()) {
+                    showAlert("No student info can be empty!");
+                }
+                else if (!isPositiveInt(indexNumber) || !isPositiveInt(termNumber)) {
+                    showAlert("Index number and Term number must be positive integers!");
+                }
+                else {
+                    int indexNumberInt = Integer.parseInt(indexNumber);
+                    int termNumberInt = Integer.parseInt(termNumber);
+                    Person tmp = new Student(name, lastName, PESEL, ageDouble, gender, indexNumberInt, termNumberInt, isOnErasmus, isOn1Degree, !isOn1Degree, isOnDaily, !isOnDaily);
+                    if (HashSetsHolder.getInstance().add(tmp)) {
+                        showAlert("Student added succesfully!\n"+tmp);
+                    } else {
+                        showAlert("ERROR in adding student!");
+                    }
+                }
+
+            }
+            else if (currentSecondaryButton == addDidacticButton || currentSecondaryButton == addAdministrationButton) {
+                String job = textFieldJob.getText();
+                String seniority = textFieldSeniority.getText();
+                String salary = textFieldSalary.getText();
+
+                if (job.isEmpty() || seniority.isEmpty() || salary.isEmpty()) {
+                    showAlert("No employee info can be empty!");
+                }
+                else if (!isPositiveInt(seniority) || !isPositiveInt(salary)) {
+                    showAlert("Seniority and Salary must be positive integers!");
+                }
+                else {
+                    int seniorityInt = Integer.parseInt(seniority);
+                    int salaryInt = Integer.parseInt(salary);
+                    if (currentSecondaryButton == addDidacticButton) {
+                        String publicationsNumber = textFieldPublications.getText();
+                        if (publicationsNumber.isEmpty()) {
+                            showAlert("No didactic employee info can be empty!");
+                        }
+                        else if (!isPositiveInt(publicationsNumber)) {
+                            showAlert("Publications number must be a positive integer!");
+                        }
+                        else {
+                            int publicationsNumberInt = Integer.parseInt(publicationsNumber);
+                            Person tmp = new DidacticEmployee(name, lastName, PESEL, ageDouble, gender, job, seniorityInt, salaryInt, publicationsNumberInt);
+                            if (HashSetsHolder.getInstance().add(tmp)) {
+                                showAlert("Didactic employee added succesfully!\n"+tmp);
+                            } else {
+                                showAlert("ERROR in adding didactic employee!");
+                            }
+                        }
+                    }
+                    else {
+                        String overtimeAmount = textFieldOvertime.getText();
+                        if (overtimeAmount.isEmpty()) {
+                            showAlert("No administration employee info can be empty!");
+                        }
+                        else if (!isPositiveInt(overtimeAmount)) {
+                            showAlert("Overtime amount must be a positive integer!");
+                        }
+                        else {
+                            int overtimeAmountInt = Integer.parseInt(overtimeAmount);
+                            Person tmp = new AdministrationEmployee(name, lastName, PESEL, ageDouble, gender, job, seniorityInt, salaryInt, overtimeAmountInt);
+                            if (HashSetsHolder.getInstance().add(tmp)) {
+                                showAlert("Administration employee added succesfully!\n"+tmp);
+                            } else {
+                                showAlert("ERROR in adding administration employee!");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void deleteStudentModeButtonClicked(ActionEvent actionEvent) {
@@ -265,15 +357,6 @@ public class IoController {
         lecturerComboBox.setItems(availableLecturers);
     }
 
-    private int getChosenRadioId(ToggleGroup group) {
-        int i = 0;
-        for (;i < group.getToggles().size(); i++) {
-            if (group.getSelectedToggle().equals(group.getToggles().get(i))) {
-                break;
-            }
-        }
-        return i;
-    }
 
     public void deletePerson(ActionEvent actionEvent) {
         System.out.println("DELETE XD");
@@ -368,13 +451,6 @@ public class IoController {
         showAlert("DELETED "+deletedCount+" "+(deletedCount > 1 ? "COURSES" : "COURSE")+"!");
     }
 
-    private void showAlert(String infoString) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(infoString);
-        alert.showAndWait();
-    }
     public void readFromFile(ActionEvent actionEvent) {
         HashSetsHolder.getInstance().setPeople(serializerPeople.readFromFile("people.txt"));
         HashSetsHolder.getInstance().setCourses(serializerCourse.readFromFile("courses.txt"));

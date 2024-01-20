@@ -25,11 +25,11 @@ public class AdministrationEmployee extends Employee implements Serializable {
         if (overtimeAmount < 0) overtimeAmount = 0;
         this.overtimeAmount = overtimeAmount;
     }
-
-    @Override
-    public String toString() {
-        return "AdministrationEmployee{" +
-                "overtimeAmount=" + overtimeAmount +
-                "} " + super.toString();
-    }
+//
+//    @Override
+//    public String toString() {
+//        return "AdministrationEmployee{" +
+//                "overtimeAmount=" + overtimeAmount +
+//                "} " + super.toString();
+//    }
 }
