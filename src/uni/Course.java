@@ -36,22 +36,22 @@ public class Course extends ObserverSubject<CourseState> implements Serializable
         students = new ArrayList<>();
         courseState = new CourseState(courseCode);
     }
-    public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer, ArrayList<Student> students) {
-        this.name = name;
-        this.ECTS = ECTS;
-        this.courseCode = courseCode;
-        this.lecturer = lecturer;
-        this.students = students;
-        courseState = new CourseState(courseCode);
-    }
-    public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer) {
-        this.name = name;
-        this.ECTS = ECTS;
-        this.courseCode = courseCode;
-        this.lecturer = lecturer;
-        this.students = new ArrayList<Student>();
-        courseState = new CourseState(courseCode);
-    }
+//    public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer, ArrayList<Student> students) {
+//        this.name = name;
+//        this.ECTS = ECTS;
+//        this.courseCode = courseCode;
+//        setLecturer(lecturer);
+//        this.students = students;
+//        courseState = new CourseState(courseCode);
+//    }
+//    public Course(String name, int ECTS, String courseCode, DidacticEmployee lecturer) {
+//        this.name = name;
+//        this.ECTS = ECTS;
+//        this.courseCode = courseCode;
+//        setLecturer(lecturer);
+//        this.students = new ArrayList<Student>();
+//        courseState = new CourseState(courseCode);
+//    }
     public Course(String name, int ECTS, String courseCode) {
         this.name = name;
         this.ECTS = ECTS;

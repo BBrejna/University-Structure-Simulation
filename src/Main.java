@@ -18,8 +18,8 @@ public class Main {
         holder.add(new DidacticEmployee("Ulyana", "Yarka", "777888999", 35, "Female", "Lecturer", 12, 4500));
         holder.add(new AdministrationEmployee("Gal", "Anonim", "123123123", 45, "Male", "Secretary", 12, 43999, 30));
 
-        holder.add(new Course("PSiO", 5, "PSiO-sem1-2023", (DidacticEmployee) people.get(0)));
-
+        holder.add(new Course("PSiO", 5, "PSiO-sem1-2023"));
+        courses.get(0).setLecturer((DidacticEmployee) people.get(0));
 //        people = serializerPeople.readFromFile("people.txt");
 //        courses = serializerCourse.readFromFile("courses.txt");
 
